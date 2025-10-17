@@ -35,7 +35,7 @@ const validators = {
     url: (value) => {
         const urlPattern = /^(https?:\/\/)?([\w-]+(\.\w+)+)([\w.,@?^=%&:/~+#-]*)?$/;
         if (!urlPattern.test(value)) {
-            return { valid: false, message: 'URL không hợp lệ. Vui lòng nhập đúng định dạng: https://example.com' };
+            return { valid: false, messageKey: 'error_url_invalid' };
         }
         // Auto-add https:// if missing
         if (!value.startsWith('http://') && !value.startsWith('https://')) {
@@ -47,7 +47,7 @@ const validators = {
     email: (value) => {
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailPattern.test(value)) {
-            return { valid: false, message: 'Email không hợp lệ' };
+            return { valid: false, messageKey: 'error_email_invalid' };
         }
         return { valid: true, processed: value.toLowerCase() };
     },
@@ -55,7 +55,7 @@ const validators = {
     phone: (value) => {
         const phonePattern = /^[\d\s+()-]+$/;
         if (!phonePattern.test(value)) {
-            return { valid: false, message: 'Số điện thoại không hợp lệ' };
+            return { valid: false, messageKey: 'error_phone_invalid' };
         }
         // Remove spaces for consistency
         return { valid: true, processed: value.replace(/\s/g, '') };
@@ -76,7 +76,7 @@ const validators = {
             }
         }
         
-        return { valid: false, message: 'Vui lòng nhập username TikTok hoặc link profile' };
+        return { valid: false, messageKey: 'error_tiktok_invalid' };
     },
     
     instagram: (value) => {
@@ -93,7 +93,7 @@ const validators = {
             }
         }
         
-        return { valid: false, message: 'Vui lòng nhập username Instagram hoặc link profile' };
+        return { valid: false, messageKey: 'error_instagram_invalid' };
     },
     
     youtube: (value) => {
@@ -109,7 +109,7 @@ const validators = {
         const cleaned = value.replace(/[\s()-]/g, '');
         const phonePattern = /^\+?\d{10,15}$/;
         if (!phonePattern.test(cleaned)) {
-            return { valid: false, message: 'Số WhatsApp không hợp lệ. Vui lòng bao gồm mã quốc gia (+84...)' };
+            return { valid: false, messageKey: 'error_whatsapp_invalid' };
         }
         return { valid: true, processed: cleaned };
     },
@@ -128,14 +128,14 @@ const validators = {
             }
         }
         
-        return { valid: false, message: 'Vui lòng nhập username Telegram' };
+        return { valid: false, messageKey: 'error_telegram_invalid' };
     },
     
     spotify: (value) => {
         if (value.includes('spotify.com')) {
             return { valid: true, processed: value };
         }
-        return { valid: false, message: 'Vui lòng nhập link Spotify hợp lệ' };
+        return { valid: false, messageKey: 'error_spotify_invalid' };
     },
 };
 
@@ -530,7 +530,11 @@ function validateStep1() {
             if (validator) {
                 const result = validator(value);
                 isValid = result.valid;
-                errorMessage = result.message || '';
+                
+                // Translate error message
+                if (result.messageKey) {
+                    errorMessage = LanguageManager.translate(result.messageKey);
+                }
                 
                 // Visual feedback
                 input.classList.remove('border-gray-200', 'dark:border-gray-600');
@@ -666,7 +670,8 @@ async function getData() {
     if (validator && data.url) {
         const result = validator(data.url);
         if (!result.valid) {
-            alert(result.message);
+            const errorMsg = result.messageKey ? LanguageManager.translate(result.messageKey) : 'Invalid input';
+            alert(errorMsg);
             return null;
         }
         // Use processed value
@@ -677,7 +682,8 @@ async function getData() {
     if (validator && data.username) {
         const result = validator(data.username);
         if (!result.valid) {
-            alert(result.message);
+            const errorMsg = result.messageKey ? LanguageManager.translate(result.messageKey) : 'Invalid input';
+            alert(errorMsg);
             return null;
         }
         data.username = result.processed;
@@ -687,7 +693,8 @@ async function getData() {
     if (validators[type] && data.phone) {
         const result = validators[type](data.phone);
         if (!result.valid) {
-            alert(result.message);
+            const errorMsg = result.messageKey ? LanguageManager.translate(result.messageKey) : 'Invalid input';
+            alert(errorMsg);
             return null;
         }
         data.phone = result.processed;
@@ -697,7 +704,8 @@ async function getData() {
     if (type === 'email' && data.email) {
         const result = validators.email(data.email);
         if (!result.valid) {
-            alert(result.message);
+            const errorMsg = result.messageKey ? LanguageManager.translate(result.messageKey) : 'Invalid input';
+            alert(errorMsg);
             return null;
         }
         data.email = result.processed;

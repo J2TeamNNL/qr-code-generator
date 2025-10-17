@@ -69,6 +69,17 @@ const translations = {
         placeholder_username: 'username',
         placeholder_address: '123 Đường ABC, TP.HCM',
         placeholder_invite: 'abc123xyz',
+        
+        // Validation Errors
+        error_url_invalid: 'URL không hợp lệ. Vui lòng nhập đúng định dạng: https://example.com',
+        error_email_invalid: 'Email không hợp lệ',
+        error_phone_invalid: 'Số điện thoại không hợp lệ',
+        error_whatsapp_invalid: 'Số WhatsApp không hợp lệ. Vui lòng bao gồm mã quốc gia (+84...)',
+        error_username_invalid: 'Vui lòng nhập username hoặc link profile hợp lệ',
+        error_tiktok_invalid: 'Vui lòng nhập username TikTok hoặc link profile',
+        error_instagram_invalid: 'Vui lòng nhập username Instagram hoặc link profile',
+        error_telegram_invalid: 'Vui lòng nhập username Telegram',
+        error_spotify_invalid: 'Vui lòng nhập link Spotify hợp lệ',
     },
     en: {
         title: 'QR Code Generator',
@@ -139,6 +150,17 @@ const translations = {
         placeholder_username: 'username',
         placeholder_address: '123 Main St, City',
         placeholder_invite: 'abc123xyz',
+        
+        // Validation Errors
+        error_url_invalid: 'Invalid URL. Please enter correct format: https://example.com',
+        error_email_invalid: 'Invalid email address',
+        error_phone_invalid: 'Invalid phone number',
+        error_whatsapp_invalid: 'Invalid WhatsApp number. Please include country code (+1...)',
+        error_username_invalid: 'Please enter valid username or profile link',
+        error_tiktok_invalid: 'Please enter TikTok username or profile link',
+        error_instagram_invalid: 'Please enter Instagram username or profile link',
+        error_telegram_invalid: 'Please enter Telegram username',
+        error_spotify_invalid: 'Please enter valid Spotify link',
     },
 };
 
