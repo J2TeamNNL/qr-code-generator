@@ -2,11 +2,14 @@
 
 <div align="center">
 
-![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)
+![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
+![GitHub Stars](https://img.shields.io/github/stars/j2teamnnl/qr-code-generator?style=social)
 
 **Công cụ tạo mã QR miễn phí, mã nguồn mở với nhiều tùy chọn tùy chỉnh**
+
+[🌐 Live Demo](https://j2teamnnl.github.io/qr-code-generator) • [📖 Docs](https://github.com/j2teamnnl/qr-code-generator#readme) • [🐛 Report Bug](https://github.com/j2teamnnl/qr-code-generator/issues) • [✨ Request Feature](https://github.com/j2teamnnl/qr-code-generator/issues)
 
 </div>
 
@@ -61,7 +64,9 @@ Tạo QR code cho nhiều mục đích khác nhau:
 
 ## 🚀 Bắt đầu
 
-### Sử dụng trực tiếp: [Demo](https://j2teamnnl.github.io/qr-code-generator)
+### 🌐 Sử dụng trực tiếp
+
+**Live Demo:** [https://j2teamnnl.github.io/qr-code-generator](https://j2teamnnl.github.io/qr-code-generator)
 
 ## 📖 Hướng dẫn sử dụng
 
