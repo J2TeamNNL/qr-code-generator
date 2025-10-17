@@ -19,17 +19,19 @@ const translations = {
         customize_qr: 'Tùy chỉnh giao diện QR',
         preview_export: 'Xem & Xuất QR Code',
         
-        // QR Style
-        qr_style: 'Màu sắc QR Code:',
-        color_warning: '⚠️ Lưu ý: Dùng màu có độ tương phản cao (đen/trắng) để đảm bảo quét được tốt nhất. Màu sáng hoặc màu tương tự nhau có thể làm giảm khả năng scan.',
+        // QR Colors
+        qr_colors: 'Màu sắc QR Code:',
         qr_color: 'Màu QR:',
         bg_color: 'Màu nền:',
+        color_warning: '⚠️ Lưu ý: Dùng màu có độ tương phản cao (đen/trắng) để đảm bảo quét được tốt nhất. Màu sáng hoặc màu tương tự nhau có thể làm giảm khả năng scan.',
         
         // Center customization
         customize_center: 'Tùy chỉnh giữa QR:',
-        add_logo: 'Thêm Logo',
-        add_text: 'Thêm Text',
-        no_add: 'Không thêm gì',
+        add_logo: '📷 Thêm Ảnh',
+        add_logo_hint: 'Gợi ý: Ảnh vuông (1:1), tối thiểu 200x200px, nền trong suốt tốt nhất',
+        add_text: '✏️ Thêm Văn bản',
+        no_add: '🚫 Không thêm gì',
+        none: 'Không thêm gì',
         enter_text: 'Nhập text...',
         text_color: 'Màu text:',
         
@@ -87,17 +89,19 @@ const translations = {
         customize_qr: 'Customize QR appearance',
         preview_export: 'Preview & Export QR Code',
         
-        // QR Style
-        qr_style: 'QR Code Colors:',
-        color_warning: '⚠️ Note: Use high contrast colors (black/white) for best scanability. Light or similar colors may reduce scanning ability.',
+        // QR Colors
+        qr_colors: 'QR Code Colors:',
         qr_color: 'QR Color:',
         bg_color: 'Background Color:',
+        color_warning: '⚠️ Note: Use high contrast colors (black/white) for best scanability. Light or similar colors may reduce scanning ability.',
         
         // Center customization
         customize_center: 'Customize center:',
-        add_logo: 'Add Logo',
-        add_text: 'Add Text',
-        no_add: 'None',
+        add_logo: '📷 Add Logo',
+        add_logo_hint: 'Tip: Square image (1:1), minimum 200x200px, transparent background recommended',
+        add_text: '✏️ Add Text',
+        no_add: '🚫 None',
+        none: 'None',
         enter_text: 'Enter text...',
         text_color: 'Text color:',
         

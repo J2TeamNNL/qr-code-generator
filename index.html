@@ -29,8 +29,8 @@
                 </button>
             </div>
             
-            <h1 class="text-5xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-3" data-i18n="title">QR Code Generator</h1>
-            <p class="text-gray-600 dark:text-gray-400" data-i18n="subtitle">Tạo mã QR miễn phí với nhiều tùy chọn tùy chỉnh</p>
+            <h1 class="text-5xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-3">QR Code Generator</h1>
+            <p class="text-gray-600 dark:text-gray-400" data-i18n="subtitle"></p>
             <a href="https://github.com/j2teamnnl/qr-code-generator" target="_blank" class="inline-flex items-center gap-2 mt-3 text-sm text-gray-500 hover:text-indigo-600 transition">
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
                 Star on GitHub
@@ -43,21 +43,21 @@
             <div class="flex border-b border-gray-200 dark:border-gray-700 mb-8 overflow-x-auto">
                 <div id="tab1" class="tab active" onclick="goToStep(1)">
                     <span class="text-2xl mr-2">📱</span>
-                    <span data-i18n="step1_title">Bước 1: Chọn Dữ Liệu</span>
+                    <span data-i18n="step1_title"></span>
                 </div>
                 <div id="tab2" class="tab opacity-50" onclick="goToStep(2)" style="pointer-events: none;">
                     <span class="text-2xl mr-2">🎨</span>
-                    <span data-i18n="step2_title">Bước 2: Tùy Chỉnh</span>
+                    <span data-i18n="step2_title"></span>
                 </div>
                 <div id="tab3" class="tab opacity-50" onclick="goToStep(3)" style="pointer-events: none;">
                     <span class="text-2xl mr-2">⚙️</span>
-                    <span data-i18n="step3_title">Bước 3: Preview & Export</span>
+                    <span data-i18n="step3_title"></span>
                 </div>
             </div>
 
             <!-- Step 1: Data Type Selection -->
             <div id="step1">
-                <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6" data-i18n="select_data_type">Chọn loại dữ liệu</h2>
+                <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6" data-i18n="select_data_type"></h2>
                 
                 <!-- Data Type Grid -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
@@ -145,45 +145,39 @@
 
             <!-- Step 2: Customization -->
             <div id="step2" class="hidden">
-                <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6">Tùy chỉnh giao diện QR</h2>
+                <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6" data-i18n="customize_qr"></h2>
                 
                 <!-- QR Style & Colors -->
                 <div class="space-y-6">
                     <div class="card-bg rounded-xl p-6 border border-gray-200">
                         <p class="text-sm font-semibold text-gray-800 dark:text-gray-100 mb-4 flex items-center gap-2">
                             <span>🎨</span>
-                            <span data-i18n="qr_style">Kiểu dáng & Màu sắc:</span>
+                            <span data-i18n="qr_colors">Màu sắc QR Code:</span>
                         </p>
                         
-                        <div class="grid md:grid-cols-3 gap-4 mb-4">
+                        <div class="grid md:grid-cols-2 gap-4 mb-4">
                             <div>
-                                <label class="text-xs text-gray-600 dark:text-gray-400 font-medium mb-2 block">Kiểu QR:</label>
-                                <select id="qrStyle" class="w-full px-4 py-3 border-2 input-bg rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all">
-                                    <option value="square">Vuông (Square)</option>
-                                    <option value="dots">Chấm tròn (Dots)</option>
-                                    <option value="rounded">Bo tròn (Rounded)</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="text-xs text-gray-600 dark:text-gray-400 font-medium mb-2 block">Màu QR:</label>
+                                <label class="text-xs text-gray-600 dark:text-gray-400 font-medium mb-2 block" data-i18n="qr_color"></label>
                                 <input type="color" id="qrColorDark" value="#000000" class="w-full h-12 border-2 border-gray-200 dark:border-gray-600 rounded-xl cursor-pointer">
                             </div>
                             <div>
-                                <label class="text-xs text-gray-600 dark:text-gray-400 font-medium mb-2 block">Màu nền:</label>
+                                <label class="text-xs text-gray-600 dark:text-gray-400 font-medium mb-2 block" data-i18n="bg_color"></label>
                                 <input type="color" id="qrColorLight" value="#ffffff" class="w-full h-12 border-2 border-gray-200 dark:border-gray-600 rounded-xl cursor-pointer">
                             </div>
                         </div>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-2" data-i18n="color_warning"></p>
                     </div>
 
                     <!-- Center Customization -->
                     <div class="card-bg rounded-xl p-6 border border-gray-200">
-                        <p class="text-sm font-semibold text-gray-800 dark:text-gray-100 mb-4">Tùy chỉnh giữa QR:</p>
+                        <p class="text-sm font-semibold text-gray-800 dark:text-gray-100 mb-4" data-i18n="customize_center"></p>
                         
                         <div class="space-y-3">
                             <label class="flex items-center p-3 rounded-lg border-2 border-gray-200 dark:border-gray-600 cursor-pointer hover:border-indigo-500 transition-all">
                                 <input type="radio" name="centerOption" value="logo" class="mr-3 w-4 h-4 text-indigo-600">
                                 <div class="flex-1">
-                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300">📷 Thêm Logo</span>
+                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300" data-i18n="add_logo"></span>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1" data-i18n="add_logo_hint"></p>
                                 </div>
                             </label>
                             <input type="file" id="logoFile" accept="image/*" class="w-full px-4 py-3 border-2 input-bg rounded-xl transition-all" disabled>
@@ -191,19 +185,83 @@
                             <label class="flex items-center p-3 rounded-lg border-2 border-gray-200 dark:border-gray-600 cursor-pointer hover:border-indigo-500 transition-all">
                                 <input type="radio" name="centerOption" value="text" class="mr-3 w-4 h-4 text-indigo-600">
                                 <div class="flex-1">
-                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300">✏️ Thêm Text</span>
+                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300" data-i18n="add_text"></span>
                                 </div>
                             </label>
-                            <input type="text" id="centerText" placeholder="Nhập text..." class="w-full px-4 py-3 border-2 input-bg rounded-xl transition-all mb-2" disabled>
+                            <input type="text" id="centerText" placeholder="Nhập gì đó..." class="w-full px-4 py-3 border-2 input-bg rounded-xl transition-all mb-2" disabled>
                             <div class="flex items-center gap-3">
-                                <label class="text-sm text-gray-600 dark:text-gray-400 font-medium">Màu text:</label>
+                                <label class="text-sm text-gray-600 dark:text-gray-400 font-medium" data-i18n="text_color"></label>
                                 <input type="color" id="centerTextColor" value="#000000" class="h-10 w-24 border-2 border-gray-200 dark:border-gray-600 rounded-lg cursor-pointer" disabled>
                             </div>
 
                             <label class="flex items-center p-3 rounded-lg border-2 border-gray-200 dark:border-gray-600 cursor-pointer hover:border-indigo-500 transition-all">
                                 <input type="radio" name="centerOption" value="none" class="mr-3 w-4 h-4 text-indigo-600" checked>
                                 <div class="flex-1">
-                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300">🚫 Không thêm gì</span>
+                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300" data-i18n="none"></span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Input Fields Container -->
+                <div id="inputFields" class="space-y-4 mb-6"></div>
+            </div>
+
+            <!-- Step 2: Customization -->
+            <div id="step2" class="hidden">
+                <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6" data-i18n="customize_qr"></h2>
+                
+                <!-- QR Style & Colors -->
+                <div class="space-y-6">
+                    <div class="card-bg rounded-xl p-6 border border-gray-200">
+                        <p class="text-sm font-semibold text-gray-800 dark:text-gray-100 mb-4 flex items-center gap-2">
+                            <span>🎨</span>
+                            <span data-i18n="qr_style"></span>
+                        </p>
+                        
+                        <div class="grid md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <label class="text-xs text-gray-600 dark:text-gray-400 font-medium mb-2 block" data-i18n="qr_color"></label>
+                                <input type="color" id="qrColorDark" value="#000000" class="w-full h-12 border-2 border-gray-200 dark:border-gray-600 rounded-xl cursor-pointer">
+                            </div>
+                            <div>
+                                <label class="text-xs text-gray-600 dark:text-gray-400 font-medium mb-2 block" data-i18n="bg_color"></label>
+                                <input type="color" id="qrColorLight" value="#ffffff" class="w-full h-12 border-2 border-gray-200 dark:border-gray-600 rounded-xl cursor-pointer">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Center Customization -->
+                    <div class="card-bg rounded-xl p-6 border border-gray-200">
+                        <p class="text-sm font-semibold text-gray-800 dark:text-gray-100 mb-4" data-i18n="customize_center"></p>
+                        
+                        <div class="space-y-3">
+                            <label class="flex items-center p-3 rounded-lg border-2 border-gray-200 dark:border-gray-600 cursor-pointer hover:border-indigo-500 transition-all">
+                                <input type="radio" name="centerOption" value="logo" class="mr-3 w-4 h-4 text-indigo-600">
+                                <div class="flex-1">
+                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300" data-i18n="add_logo"></span>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1" data-i18n="add_logo_hint"></p>
+                                </div>
+                            </label>
+                            <input type="file" id="logoFile" accept="image/*" class="w-full px-4 py-3 border-2 input-bg rounded-xl transition-all" disabled>
+
+                            <label class="flex items-center p-3 rounded-lg border-2 border-gray-200 dark:border-gray-600 cursor-pointer hover:border-indigo-500 transition-all">
+                                <input type="radio" name="centerOption" value="text" class="mr-3 w-4 h-4 text-indigo-600">
+                                <div class="flex-1">
+                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300" data-i18n="add_text"></span>
+                                </div>
+                            </label>
+                            <input type="text" id="centerText" placeholder="Nhập gì đó..." class="w-full px-4 py-3 border-2 input-bg rounded-xl transition-all mb-2" disabled>
+                            <div class="flex items-center gap-3">
+                                <label class="text-sm text-gray-600 dark:text-gray-400 font-medium" data-i18n="text_color"></label>
+                                <input type="color" id="centerTextColor" value="#000000" class="h-10 w-24 border-2 border-gray-200 dark:border-gray-600 rounded-lg cursor-pointer" disabled>
+                            </div>
+
+                            <label class="flex items-center p-3 rounded-lg border-2 border-gray-200 dark:border-gray-600 cursor-pointer hover:border-indigo-500 transition-all">
+                                <input type="radio" name="centerOption" value="none" class="mr-3 w-4 h-4 text-indigo-600" checked>
+                                <div class="flex-1">
+                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300" data-i18n="none"></span>
                                 </div>
                             </label>
                         </div>
@@ -213,18 +271,18 @@
 
             <!-- Step 3: Advanced Settings -->
             <div id="step3" class="hidden">
-                <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6" data-i18n="advanced_settings">Cài đặt nâng cao</h2>
+                <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6" data-i18n="advanced_settings"></h2>
                 
                 <!-- Campaign Tracking -->
                 <div id="campaignSection" class="hidden card-bg rounded-xl p-6 border border-gray-200 mb-6">
                     <label class="flex items-center mb-4 cursor-pointer">
                         <input type="checkbox" id="enableCampaign" class="mr-3 w-4 h-4 text-indigo-600 rounded">
                         <div>
-                            <span class="text-sm font-semibold text-gray-800 dark:text-gray-100 flex items-center gap-2">
+                            <span class="text-sm font-semibold text-gray-800 dark:text-gray-100 flex items-center gap-2" >
                                 <span>📊</span>
                                 Google Campaign Tracking
                             </span>
-                            <p class="text-xs text-gray-600 dark:text-gray-400 mt-1" data-i18n="campaign_desc">Thêm UTM parameters</p>
+                            <p class="text-xs text-gray-600 dark:text-gray-400 mt-1" data-i18n="campaign_desc"></p>
                         </div>
                     </label>
                     <div id="campaignFields" class="space-y-3 hidden">
@@ -239,13 +297,13 @@
                     <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4" data-i18n="qr_preview">Preview:</h3>
                     <!-- ALWAYS WHITE BACKGROUND for QR scanability -->
                     <div id="qrcode" class="flex justify-center p-6 bg-white rounded-xl border-2 border-gray-300 dark:border-gray-500 min-h-[340px] items-center">
-                        <p class="text-gray-400" data-i18n="qr_preview_here">QR code sẽ hiển thị ở đây</p>
+                        <p class="text-gray-400" data-i18n="qr_preview_here"></p>
                     </div>
                 </div>
                 
                 <!-- Export Buttons (shown after QR generated) -->
                 <div id="downloadSection" class="hidden card-bg rounded-xl p-6 border border-gray-200">
-                    <p class="text-sm font-semibold text-gray-700 dark:text-gray-300 text-center mb-4" data-i18n="export_format">Chọn định dạng file:</p>
+                    <p class="text-sm font-semibold text-gray-700 dark:text-gray-300 text-center mb-4" data-i18n="export_format"></p>
                     <div class="grid grid-cols-3 gap-4">
                         <button onclick="downloadQR('png')" class="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold py-4 px-4 rounded-xl transition-all transform hover:scale-105 shadow-lg flex flex-col items-center gap-2">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
@@ -266,13 +324,13 @@
             <!-- Navigation Buttons -->
             <div class="flex justify-between mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
                 <button id="prevBtn" onclick="prevStep()" class="hidden px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-xl font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 transition-all">
-                    ← <span data-i18n="btn_prev">Quay lại</span>
+                    ← <span data-i18n="btn_prev"></span>
                 </button>
                 <button id="nextBtn" onclick="nextStep()" class="ml-auto px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-xl font-semibold transition-all transform hover:scale-105 shadow-lg">
-                    <span data-i18n="btn_next">Tiếp theo</span> →
+                    <span data-i18n="btn_next"></span> →
                 </button>
                 <button id="generateBtn" onclick="generateQR()" class="hidden ml-auto px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-xl font-semibold transition-all transform hover:scale-105 shadow-lg">
-                    ✨ <span data-i18n="btn_generate">Tạo QR Code</span>
+                    ✨ <span data-i18n="btn_generate"></span>
                 </button>
             </div>
         </div>

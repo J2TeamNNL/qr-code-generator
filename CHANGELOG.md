@@ -29,13 +29,14 @@ Tất cả features đã hoàn thành và tested.
 ### ⚠️ IMPORTANT FIXES
 
 #### 🔍 QR Code Scanability - FIXED!
-- **DISABLED custom QR styles** (dots, rounded) - Làm hỏng QR structure  
+- **REMOVED custom QR styles** (dots, rounded) - Gây lỗi QR structure, không scan được
 - **ENABLED color customization** - Với contrast validation (WCAG standard)
 - **ENABLED logo/text** - Với size limit an toàn:
   - Logo: 20% of QR (giảm từ 25%)
   - Text: 18% of QR với truncate (max 10 chars)
   - Border & padding tăng lên để dễ đọc
 - **Error Correction Level H** khi có logo/text
+- **Standard square QR only** - Đảm bảo scanability 100%
 - **Contrast ratio validation** - Warn nếu < 4.5
 - Test button để debug dễ dàng
 - Console logs chi tiết

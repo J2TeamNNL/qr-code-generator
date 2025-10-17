@@ -40,10 +40,9 @@ Tạo QR code cho nhiều mục đích khác nhau:
 
 ### 🎨 Tùy chỉnh nâng cao
 
-- **📷 Logo tùy chỉnh** - Upload ảnh logo để đặt ở giữa QR code
+- **📷 Logo tùy chỉnh** - Upload ảnh logo để đặt ở giữa QR code (khuyến nghị: ảnh vuông 1:1, tối thiểu 200x200px)
 - **✏️ Text tùy chỉnh** - Thêm text với màu sắc tùy chọn
-- **🎨 Kiểu dáng QR** - 3 styles: Square (Vuông), Dots (Chấm tròn), Rounded (Bo góc)
-- **🌈 Màu sắc** - Tùy chỉnh màu nền trước và nền sau
+- **🌈 Màu sắc** - Tùy chỉnh màu QR và màu nền với kiểm tra độ tương phản
 - **📊 Google Campaign Tracking** - Tự động thêm tham số UTM cho marketing
 - **🌙 Dark Mode** - Tự động nhận diện theo hệ thống hoặc chọn thủ công
 - **🌐 Đa ngôn ngữ** - Tiếng Việt & English
@@ -76,8 +75,7 @@ Tạo QR code cho nhiều mục đích khác nhau:
 
 **Bước 2: Tùy chỉnh giao diện**
 
-- Chọn kiểu QR: Square, Dots, hoặc Rounded
-- Chọn màu sắc QR code
+- Chọn màu sắc QR code (với kiểm tra độ tương phản)
 - Thêm logo hoặc text ở giữa (tùy chọn)
 
 **Bước 3: Cài đặt nâng cao**

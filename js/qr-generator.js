@@ -77,6 +77,7 @@ const QRGenerator = {
             // Step 2: Add logo/text if needed (with careful sizing)
             if (hasLogo || hasText) {
                 console.log('Adding customizations...');
+                await this.waitForRender();
                 this.addCustomizations();
             }
 
@@ -89,75 +90,6 @@ const QRGenerator = {
     
     waitForRender() {
         return new Promise(resolve => setTimeout(resolve, 300));
-    },
-    
-    applyStyle() {
-        const style = document.getElementById('qrStyle')?.value || 'square';
-        const canvas = document.querySelector('#qrcode canvas');
-        if (!canvas || style === 'square') return;
-
-        const ctx = canvas.getContext('2d');
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        const data = imageData.data;
-        const cellSize = canvas.width / 33;
-        const colorDark = document.getElementById('qrColorDark')?.value || '#000000';
-        
-        // Clear canvas
-        ctx.fillStyle = document.getElementById('qrColorLight')?.value || '#ffffff';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
-        for (let y = 0; y < 33; y++) {
-            for (let x = 0; x < 33; x++) {
-                const px = Math.floor(x * cellSize + cellSize / 2);
-                const py = Math.floor(y * cellSize + cellSize / 2);
-                const idx = (py * canvas.width + px) * 4;
-                
-                if (data[idx] < 128) {
-                    ctx.fillStyle = colorDark;
-                    
-                    if (style === 'dots') {
-                        ctx.beginPath();
-                        ctx.arc(
-                            x * cellSize + cellSize / 2,
-                            y * cellSize + cellSize / 2,
-                            cellSize / 2.5,
-                            0,
-                            Math.PI * 2
-                        );
-                        ctx.fill();
-                    } else if (style === 'rounded') {
-                        this.drawRoundedRect(
-                            ctx,
-                            x * cellSize + cellSize / 6,
-                            y * cellSize + cellSize / 6,
-                            cellSize * 0.67,
-                            cellSize * 0.67,
-                            cellSize / 4
-                        );
-                    }
-                }
-            }
-        }
-        
-        const qrImg = document.querySelector('#qrcode img');
-        if (qrImg) {
-            qrImg.src = canvas.toDataURL();
-        }
-    },
-    
-    drawRoundedRect(ctx, x, y, width, height, radius) {
-        ctx.beginPath();
-        ctx.moveTo(x + radius, y);
-        ctx.lineTo(x + width - radius, y);
-        ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
-        ctx.lineTo(x + width, y + height - radius);
-        ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
-        ctx.lineTo(x + radius, y + height);
-        ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
-        ctx.lineTo(x, y + radius);
-        ctx.quadraticCurveTo(x, y, x + radius, y);
-        ctx.closePath();
-        ctx.fill();
     },
     
     addCustomizations() {
