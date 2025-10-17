@@ -1,0 +1,262 @@
+/* QR Code Generator - Custom Styles */
+
+/* CSS Variables */
+:root {
+    --bg-light-from: #f8fafc;
+    --bg-light-via: #dbeafe;
+    --bg-light-to: #e0e7ff;
+    --bg-dark-from: #1e293b;
+    --bg-dark-via: #0f172a;
+    --bg-dark-to: #1e1b4b;
+}
+
+/* Body Backgrounds */
+body {
+    transition: background 0.3s ease, color 0.3s ease;
+    background: linear-gradient(135deg, var(--bg-light-from) 0%, var(--bg-light-via) 50%, var(--bg-light-to) 100%) !important;
+    min-height: 100vh;
+}
+
+.dark body {
+    background: linear-gradient(135deg, var(--bg-dark-from) 0%, var(--bg-dark-via) 50%, var(--bg-dark-to) 100%) !important;
+}
+
+/* Light Mode - Default Styles */
+.card-bg {
+    background-color: #ffffff !important;
+    border-color: #e5e7eb !important;
+}
+
+.input-bg,
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="tel"],
+input[type="file"],
+select,
+textarea {
+    background-color: #ffffff !important;
+    border-color: #d1d5db !important;
+    color: #111827 !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #6b7280 !important;
+}
+
+/* Light mode labels and text */
+label {
+    color: #374151 !important;
+}
+
+.text-gray-600 {
+    color: #4b5563 !important;
+}
+
+.text-gray-700 {
+    color: #374151 !important;
+}
+
+.text-gray-800 {
+    color: #1f2937 !important;
+}
+
+/* Dark Mode */
+.dark {
+    color-scheme: dark;
+    color: #e5e7eb;
+}
+
+.dark label {
+    color: #e5e7eb !important;
+}
+
+.dark .card-bg {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+}
+
+.dark .input-bg {
+    background-color: #0f172a !important;
+    border-color: #475569 !important;
+    color: #e2e8f0 !important;
+}
+
+.dark .input-bg:hover,
+.dark .input-bg:focus {
+    background-color: #1e293b !important;
+    border-color: #6366f1 !important;
+}
+
+.dark input[type="text"],
+.dark input[type="email"],
+.dark input[type="url"],
+.dark input[type="tel"],
+.dark input[type="file"],
+.dark select,
+.dark textarea {
+    background-color: #0f172a !important;
+    border-color: #475569 !important;
+    color: #e2e8f0 !important;
+}
+
+.dark input::placeholder {
+    color: #64748b;
+}
+
+/* Text Colors - Dark Mode */
+.dark .text-gray-400 {
+    color: #9ca3af !important;
+}
+
+.dark .text-gray-500 {
+    color: #6b7280 !important;
+}
+
+.dark .text-gray-600 {
+    color: #cbd5e1 !important;
+}
+
+.dark .text-gray-700 {
+    color: #e2e8f0 !important;
+}
+
+.dark .text-gray-800 {
+    color: #f1f5f9 !important;
+}
+
+.dark .text-gray-900 {
+    color: #f8fafc !important;
+}
+
+/* Border Colors - Dark Mode */
+.dark .border-gray-100 {
+    border-color: #334155 !important;
+}
+
+.dark .border-gray-200 {
+    border-color: #475569 !important;
+}
+
+.dark .border-gray-300 {
+    border-color: #64748b !important;
+}
+
+.dark .border-gray-600 {
+    border-color: #475569 !important;
+}
+
+/* Background Colors - Dark Mode */
+.dark .bg-gray-50 {
+    background-color: #0f172a !important;
+}
+
+.dark .bg-gray-100 {
+    background-color: #1e293b !important;
+}
+
+.dark .bg-gray-200 {
+    background-color: #334155 !important;
+}
+
+/* Warning Box */
+.dark .bg-yellow-50 {
+    background-color: rgba(254, 243, 199, 0.1) !important;
+}
+
+.dark .text-yellow-800 {
+    color: #fef3c7 !important;
+}
+
+.dark .border-yellow-200 {
+    border-color: rgba(254, 243, 199, 0.3) !important;
+}
+
+.dark .border-yellow-800 {
+    border-color: rgba(254, 243, 199, 0.2) !important;
+}
+
+/* Hover States - Dark Mode */
+.dark .hover\:bg-gray-300:hover {
+    background-color: #475569 !important;
+}
+
+.dark .hover\:border-indigo-500:hover {
+    border-color: #6366f1 !important;
+}
+
+/* Navigation Buttons - Light mode overrides */
+.bg-gray-200 {
+    background-color: #e5e7eb !important;
+}
+
+.hover\:bg-gray-300:hover {
+    background-color: #d1d5db !important;
+}
+
+.dark .bg-gray-700 {
+    background-color: #374151 !important;
+}
+
+/* Step Wizard Tabs */
+.tab {
+    position: relative;
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tab.active {
+    color: #6366f1;
+    font-weight: 600;
+}
+
+.tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(to right, #6366f1, #8b5cf6);
+}
+
+.tab:not(.active):hover {
+    background-color: rgba(99, 102, 241, 0.1);
+}
+
+/* Data Type Cards */
+.data-card {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: #ffffff;
+    border-color: #e5e7eb;
+}
+
+.data-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+    border-color: #c7d2fe;
+}
+
+.data-card.active-card {
+    border-color: #6366f1 !important;
+    background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+.dark .data-card {
+    background-color: #1e293b;
+    border-color: #475569;
+}
+
+.dark .data-card:hover {
+    border-color: #6366f1;
+    box-shadow: 0 10px 25px rgba(99, 102, 241, 0.5);
+}
+
+.dark .data-card.active-card {
+    background: linear-gradient(135deg, #312e81 0%, #3730a3 100%);
+    border-color: #818cf8 !important;
+}
