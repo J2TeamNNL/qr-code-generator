@@ -92,6 +92,40 @@ const QRGenerator = {
         return new Promise(resolve => setTimeout(resolve, 300));
     },
     
+    // Crop image to square and resize
+    async cropAndResizeImage(file, targetSize = 200) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                // Calculate crop dimensions (center crop to square)
+                const size = Math.min(img.width, img.height);
+                const offsetX = (img.width - size) / 2;
+                const offsetY = (img.height - size) / 2;
+                
+                // Set canvas to target size
+                canvas.width = targetSize;
+                canvas.height = targetSize;
+                
+                // Draw cropped and resized image
+                ctx.drawImage(
+                    img,
+                    offsetX, offsetY, size, size,  // Source crop
+                    0, 0, targetSize, targetSize   // Destination
+                );
+                
+                // Convert to blob
+                canvas.toBlob((blob) => {
+                    resolve(blob);
+                }, 'image/png');
+            };
+            img.onerror = reject;
+            img.src = URL.createObjectURL(file);
+        });
+    },
+    
     addCustomizations() {
         const qrCanvas = document.querySelector('#qrcode canvas');
         const qrImg = document.querySelector('#qrcode img');
@@ -114,33 +148,39 @@ const QRGenerator = {
         const textColor = document.getElementById('centerTextColor')?.value;
         
         if (centerOption === 'logo' && logoFile) {
-            const logo = new Image();
-            logo.onload = () => {
-                // SAFE SIZE: 20% of QR (was 25%) - less coverage = better scanability
-                const logoSize = canvas.width * 0.20;
-                const x = (canvas.width - logoSize) / 2;
-                const y = (canvas.height - logoSize) / 2;
-                const padding = 10; // Increased padding for better readability
-                
-                // White background with slight border
-                ctx.fillStyle = '#ffffff';
-                ctx.fillRect(x - padding, y - padding, logoSize + padding * 2, logoSize + padding * 2);
-                
-                // Optional: Add border for better visibility
-                ctx.strokeStyle = '#e5e7eb';
-                ctx.lineWidth = 2;
-                ctx.strokeRect(x - padding, y - padding, logoSize + padding * 2, logoSize + padding * 2);
-                
-                ctx.drawImage(logo, x, y, logoSize, logoSize);
-                
-                qrImg.src = canvas.toDataURL();
-                console.log('✓ Logo added - size: 20%');
-            };
-            logo.onerror = () => {
-                console.error('Failed to load logo');
-                alert('Không thể tải logo. Vui lòng thử file khác.');
-            };
-            logo.src = URL.createObjectURL(logoFile);
+            // Auto-crop and resize logo
+            this.cropAndResizeImage(logoFile, 200).then((croppedBlob) => {
+                const logo = new Image();
+                logo.onload = () => {
+                    // SAFE SIZE: 20% of QR (was 25%) - less coverage = better scanability
+                    const logoSize = canvas.width * 0.20;
+                    const x = (canvas.width - logoSize) / 2;
+                    const y = (canvas.height - logoSize) / 2;
+                    const padding = 10; // Increased padding for better readability
+                    
+                    // White background with slight border
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(x - padding, y - padding, logoSize + padding * 2, logoSize + padding * 2);
+                    
+                    // Optional: Add border for better visibility
+                    ctx.strokeStyle = '#e5e7eb';
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(x - padding, y - padding, logoSize + padding * 2, logoSize + padding * 2);
+                    
+                    ctx.drawImage(logo, x, y, logoSize, logoSize);
+                    
+                    qrImg.src = canvas.toDataURL();
+                    console.log('✓ Logo added (auto-cropped to square) - size: 20%');
+                };
+                logo.onerror = () => {
+                    console.error('Failed to load logo');
+                    alert('Không thể tải logo. Vui lòng thử file khác.');
+                };
+                logo.src = URL.createObjectURL(croppedBlob);
+            }).catch((error) => {
+                console.error('Failed to crop image:', error);
+                alert('Không thể xử lý ảnh. Vui lòng thử file khác.');
+            });
         } else if (centerOption === 'text' && centerText) {
             // SAFE SIZE: 18% of QR for text
             const size = canvas.width * 0.18;
@@ -180,10 +220,22 @@ const QRGenerator = {
         if (!canvas || !img) return;
         
         if (format === 'png') {
-            const a = document.createElement('a');
-            a.href = img.src;
-            a.download = 'qrcode.png';
-            a.click();
+            // Use canvas.toBlob for better mobile support
+            canvas.toBlob((blob) => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'qrcode.png';
+                a.style.display = 'none';
+                document.body.appendChild(a);
+                a.click();
+                
+                // Cleanup
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }, 100);
+            }, 'image/png');
         } else if (format === 'svg') {
             const svgData = this.canvasToSVG(canvas);
             const blob = new Blob([svgData], { type: 'image/svg+xml' });
@@ -191,8 +243,15 @@ const QRGenerator = {
             const a = document.createElement('a');
             a.href = url;
             a.download = 'qrcode.svg';
+            a.style.display = 'none';
+            document.body.appendChild(a);
             a.click();
-            URL.revokeObjectURL(url);
+            
+            // Cleanup
+            setTimeout(() => {
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }, 100);
         } else if (format === 'pdf') {
             const { jsPDF } = window.jspdf;
             const pdf = new jsPDF({

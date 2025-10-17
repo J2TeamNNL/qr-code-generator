@@ -110,6 +110,14 @@ const WizardController = {
             }
             if (tabEl) {
                 tabEl.classList.toggle('active', i === step);
+                // Enable tabs that are visited or current
+                if (i <= step) {
+                    tabEl.style.opacity = '1';
+                    tabEl.style.pointerEvents = 'auto';
+                } else {
+                    tabEl.style.opacity = '0.5';
+                    tabEl.style.pointerEvents = 'none';
+                }
             }
         }
         
@@ -117,8 +125,15 @@ const WizardController = {
         this.updateButtons();
     },
     
-    next() {
+    async next() {
         if (this.currentStep < this.totalSteps) {
+            // Auto-generate QR when moving from Step 2 to Step 3
+            if (this.currentStep === 2) {
+                // Call generateQR function
+                if (typeof window.generateQR === 'function') {
+                    await window.generateQR();
+                }
+            }
             this.showStep(this.currentStep + 1);
         }
     },
@@ -142,8 +157,9 @@ const WizardController = {
             nextBtn.classList.toggle('hidden', this.currentStep === this.totalSteps);
         }
         
+        // Hide generate button - auto-generate when entering Step 3
         if (generateBtn) {
-            generateBtn.classList.toggle('hidden', this.currentStep !== 3);
+            generateBtn.classList.add('hidden');
         }
     },
 };

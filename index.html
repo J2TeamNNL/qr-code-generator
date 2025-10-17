@@ -182,6 +182,7 @@
                             </label>
                             <input type="file" id="logoFile" accept="image/*" class="w-full px-4 py-3 border-2 input-bg rounded-xl transition-all" disabled>
 
+                            <div id="logoPreview" class="hidden mt-2 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg"></div>
                             <label class="flex items-center p-3 rounded-lg border-2 border-gray-200 dark:border-gray-600 cursor-pointer hover:border-indigo-500 transition-all">
                                 <input type="radio" name="centerOption" value="text" class="mr-3 w-4 h-4 text-indigo-600">
                                 <div class="flex-1">
@@ -202,96 +203,32 @@
                             </label>
                         </div>
                     </div>
-                </div>
 
-                <!-- Input Fields Container -->
-                <div id="inputFields" class="space-y-4 mb-6"></div>
-            </div>
-
-            <!-- Step 2: Customization -->
-            <div id="step2" class="hidden">
-                <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6" data-i18n="customize_qr"></h2>
-                
-                <!-- QR Style & Colors -->
-                <div class="space-y-6">
-                    <div class="card-bg rounded-xl p-6 border border-gray-200">
-                        <p class="text-sm font-semibold text-gray-800 dark:text-gray-100 mb-4 flex items-center gap-2">
-                            <span>🎨</span>
-                            <span data-i18n="qr_style"></span>
-                        </p>
-                        
-                        <div class="grid md:grid-cols-3 gap-4 mb-4">
+                    <!-- Campaign Tracking -->
+                    <div id="campaignSection" class="hidden card-bg rounded-xl p-6 border border-gray-200">
+                        <label class="flex items-center mb-4 cursor-pointer">
+                            <input type="checkbox" id="enableCampaign" class="mr-3 w-4 h-4 text-indigo-600 rounded">
                             <div>
-                                <label class="text-xs text-gray-600 dark:text-gray-400 font-medium mb-2 block" data-i18n="qr_color"></label>
-                                <input type="color" id="qrColorDark" value="#000000" class="w-full h-12 border-2 border-gray-200 dark:border-gray-600 rounded-xl cursor-pointer">
+                                <span class="text-sm font-semibold text-gray-800 dark:text-gray-100 flex items-center gap-2">
+                                    <span>📊</span>
+                                    <span data-i18n="campaign_title">Google Campaign Tracking</span>
+                                </span>
+                                <p class="text-xs text-gray-600 dark:text-gray-400 mt-1" data-i18n="campaign_desc"></p>
                             </div>
-                            <div>
-                                <label class="text-xs text-gray-600 dark:text-gray-400 font-medium mb-2 block" data-i18n="bg_color"></label>
-                                <input type="color" id="qrColorLight" value="#ffffff" class="w-full h-12 border-2 border-gray-200 dark:border-gray-600 rounded-xl cursor-pointer">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Center Customization -->
-                    <div class="card-bg rounded-xl p-6 border border-gray-200">
-                        <p class="text-sm font-semibold text-gray-800 dark:text-gray-100 mb-4" data-i18n="customize_center"></p>
-                        
-                        <div class="space-y-3">
-                            <label class="flex items-center p-3 rounded-lg border-2 border-gray-200 dark:border-gray-600 cursor-pointer hover:border-indigo-500 transition-all">
-                                <input type="radio" name="centerOption" value="logo" class="mr-3 w-4 h-4 text-indigo-600">
-                                <div class="flex-1">
-                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300" data-i18n="add_logo"></span>
-                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1" data-i18n="add_logo_hint"></p>
-                                </div>
-                            </label>
-                            <input type="file" id="logoFile" accept="image/*" class="w-full px-4 py-3 border-2 input-bg rounded-xl transition-all" disabled>
-
-                            <label class="flex items-center p-3 rounded-lg border-2 border-gray-200 dark:border-gray-600 cursor-pointer hover:border-indigo-500 transition-all">
-                                <input type="radio" name="centerOption" value="text" class="mr-3 w-4 h-4 text-indigo-600">
-                                <div class="flex-1">
-                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300" data-i18n="add_text"></span>
-                                </div>
-                            </label>
-                            <input type="text" id="centerText" placeholder="Nhập gì đó..." class="w-full px-4 py-3 border-2 input-bg rounded-xl transition-all mb-2" disabled>
-                            <div class="flex items-center gap-3">
-                                <label class="text-sm text-gray-600 dark:text-gray-400 font-medium" data-i18n="text_color"></label>
-                                <input type="color" id="centerTextColor" value="#000000" class="h-10 w-24 border-2 border-gray-200 dark:border-gray-600 rounded-lg cursor-pointer" disabled>
-                            </div>
-
-                            <label class="flex items-center p-3 rounded-lg border-2 border-gray-200 dark:border-gray-600 cursor-pointer hover:border-indigo-500 transition-all">
-                                <input type="radio" name="centerOption" value="none" class="mr-3 w-4 h-4 text-indigo-600" checked>
-                                <div class="flex-1">
-                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300" data-i18n="none"></span>
-                                </div>
-                            </label>
+                        </label>
+                        <div id="campaignFields" class="space-y-3 hidden">
+                            <input type="text" id="utmSource" placeholder="📌 Campaign Source (utm_source)" class="w-full px-4 py-3 border-2 input-bg rounded-xl">
+                            <input type="text" id="utmMedium" placeholder="🔗 Campaign Medium (utm_medium)" class="w-full px-4 py-3 border-2 input-bg rounded-xl">
+                            <input type="text" id="utmCampaign" placeholder="🎯 Campaign Name (utm_campaign)" class="w-full px-4 py-3 border-2 input-bg rounded-xl">
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Step 3: Advanced Settings -->
+            <!-- Step 3: Preview & Export -->
             <div id="step3" class="hidden">
-                <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6" data-i18n="advanced_settings"></h2>
+                <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6" data-i18n="preview_export"></h2>
                 
-                <!-- Campaign Tracking -->
-                <div id="campaignSection" class="hidden card-bg rounded-xl p-6 border border-gray-200 mb-6">
-                    <label class="flex items-center mb-4 cursor-pointer">
-                        <input type="checkbox" id="enableCampaign" class="mr-3 w-4 h-4 text-indigo-600 rounded">
-                        <div>
-                            <span class="text-sm font-semibold text-gray-800 dark:text-gray-100 flex items-center gap-2" >
-                                <span>📊</span>
-                                Google Campaign Tracking
-                            </span>
-                            <p class="text-xs text-gray-600 dark:text-gray-400 mt-1" data-i18n="campaign_desc"></p>
-                        </div>
-                    </label>
-                    <div id="campaignFields" class="space-y-3 hidden">
-                        <input type="text" id="utmSource" placeholder="📍 Campaign Source (utm_source)" class="w-full px-4 py-3 border-2 input-bg rounded-xl">
-                        <input type="text" id="utmMedium" placeholder="📢 Campaign Medium (utm_medium)" class="w-full px-4 py-3 border-2 input-bg rounded-xl">
-                        <input type="text" id="utmCampaign" placeholder="🎯 Campaign Name (utm_campaign)" class="w-full px-4 py-3 border-2 input-bg rounded-xl">
-                    </div>
-                </div>
-
                 <!-- QR Preview -->
                 <div class="card-bg rounded-xl p-6 border border-gray-200 mb-6">
                     <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4" data-i18n="qr_preview">Preview:</h3>

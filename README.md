@@ -2,14 +2,11 @@
 
 <div align="center">
 
-![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)
+![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
-![GitHub Stars](https://img.shields.io/github/stars/j2teamnnl/qr-code-generator?style=social)
 
 **Công cụ tạo mã QR miễn phí, mã nguồn mở với nhiều tùy chọn tùy chỉnh**
-
-[🌐 Live Demo](https://j2teamnnl.github.io/qr-code-generator) • [📖 Docs](https://github.com/j2teamnnl/qr-code-generator#readme) • [🐛 Report Bug](https://github.com/j2teamnnl/qr-code-generator/issues) • [✨ Request Feature](https://github.com/j2teamnnl/qr-code-generator/issues)
 
 </div>
 
@@ -27,9 +24,6 @@ Tạo QR code cho nhiều mục đích khác nhau:
 - **Phone** - Số điện thoại
 - **SMS** - Tin nhắn SMS
 - **WiFi Login** - Thông tin đăng nhập WiFi
-- **Snapchat** - Tài khoản Snapchat
-- **File** - Upload file để tạo QR
-- **E-Address** - Địa chỉ điện tử
 - **WhatsApp** - Số WhatsApp
 - **YouTube** - Kênh/Video YouTube
 - **Instagram** - Tài khoản Instagram
@@ -57,7 +51,9 @@ Tạo QR code cho nhiều mục đích khác nhau:
 - ✅ **Miễn phí 100%** - Không giới hạn số lượng QR code
 - ✅ **Bảo mật** - Xử lý hoàn toàn trên trình duyệt, không lưu trữ dữ liệu
 - ✅ **Không cần cài đặt** - Chạy trực tiếp trên trình duyệt
-- ✅ **Responsive** - Hoạt động tốt trên mọi thiết bị
+- ✅ **Responsive** - Hoạt động tốt trên desktop & mobile
+- ✅ **Mobile Optimized** - Download & preview QR tối ưu cho điện thoại
+- ✅ **Icon Fallback** - Emoji fallback nếu CDN bị chặn
 - ✅ **Open Source** - Mã nguồn mở, có thể tùy chỉnh
 
 ---
@@ -115,11 +111,54 @@ qr-code-generator/
 │   ├── qr-generator.js    # QR generation & styling
 │   ├── translations.js    # Multi-language data
 │   └── utils.js           # Helper functions
+├── css/
+│   └── style.css          # Custom styles
+├── package.json           # Dependencies & scripts
+├── .eslintrc.json         # ESLint config
+├── .prettierrc.json       # Prettier config
 ├── README.md              # Tài liệu
-├── CONTRIBUTING.md        # Hướng dẫn đóng góp
 ├── CHANGELOG.md           # Lịch sử thay đổi
+├── TODO.md                # Pending tasks
 └── LICENSE                # MIT License
 ```
+
+---
+
+## 🛠️ Development
+
+### Setup
+
+```bash
+# Clone repository
+git clone https://github.com/j2teamnnl/qr-code-generator.git
+cd qr-code-generator
+
+# Install dependencies
+npm install
+```
+
+### Code Quality
+
+```bash
+# Run ESLint
+npm run lint
+
+# Auto-fix ESLint errors
+npm run lint:fix
+
+# Format code with Prettier
+npm run format
+
+# Run all checks
+npm run check
+```
+
+### ESLint & Prettier
+
+- **ESLint**: Kiểm tra lỗi code, coding standards
+- **Prettier**: Auto-format code theo chuẩn
+- Config files: `.eslintrc.json`, `.prettierrc.json`
+- Chạy `npm run lint:fix` trước khi commit
 
 ---
 

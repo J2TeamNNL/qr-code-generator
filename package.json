@@ -1,0 +1,29 @@
+{
+  "name": "qr-code-generator",
+  "version": "2.0.0",
+  "description": "Free QR Code Generator with customization options",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint js/**/*.js",
+    "lint:fix": "eslint js/**/*.js --fix",
+    "format": "prettier --write \"js/**/*.js\" \"*.html\" \"*.md\"",
+    "check": "npm run lint && npm run format"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/j2teamnnl/qr-code-generator.git"
+  },
+  "keywords": [
+    "qr-code",
+    "qr-generator",
+    "javascript",
+    "tailwindcss",
+    "open-source"
+  ],
+  "author": "j2teamnnl",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "prettier": "^3.2.5"
+  }
+}

@@ -260,3 +260,38 @@ label {
     background: linear-gradient(135deg, #312e81 0%, #3730a3 100%);
     border-color: #818cf8 !important;
 }
+
+/* Icon Fallback System */
+.icon-fallback {
+    display: none;
+}
+
+/* Show emoji fallback if Font Awesome fails to load */
+body.no-icons i {
+    display: none !important;
+}
+
+body.no-icons .icon-fallback {
+    display: inline !important;
+}
+
+/* QR Code Responsive */
+#qrcode {
+    max-width: 100%;
+}
+
+#qrcode canvas,
+#qrcode img {
+    max-width: 100% !important;
+    height: auto !important;
+    width: auto !important;
+}
+
+/* Mobile: smaller QR size */
+@media (max-width: 768px) {
+    #qrcode canvas,
+    #qrcode img {
+        max-width: 280px !important;
+        max-height: 280px !important;
+    }
+}
