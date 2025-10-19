@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)
+![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
 
@@ -41,10 +41,11 @@ Tạo QR code cho nhiều mục đích khác nhau:
 - **✏️ Text tùy chỉnh** - Thêm text với màu sắc tùy chọn
 - **🌈 Màu sắc** - Tùy chỉnh màu QR và màu nền với kiểm tra độ tương phản
 - **📊 Google Campaign Tracking** - Tự động thêm tham số UTM cho marketing
+- **⚡ True Live Preview** - QR code tự động update khi thay đổi input (không cần bấm Generate)
 - **🌙 Dark Mode** - Tự động nhận diện theo hệ thống hoặc chọn thủ công
 - **🌐 Đa ngôn ngữ** - Tiếng Việt & English
 - **💾 Export đa dạng** - PNG, SVG, PDF
-- **🪜 Step Wizard** - Giao diện tab theo bước, dễ sử dụng
+- **🐛 Error Reporting** - Hệ thống báo lỗi tích hợp, tracking user activities
 
 ### 🚀 Ưu điểm
 
@@ -64,30 +65,39 @@ Tạo QR code cho nhiều mục đích khác nhau:
 
 **Live Demo:** [https://j2teamnnl.github.io/qr-code-generator](https://j2teamnnl.github.io/qr-code-generator)
 
+---
+
 ## 📖 Hướng dẫn sử dụng
 
-### Tạo QR Code với Step Wizard
+### Tạo QR Code nhanh chóng - Single Page!
 
-**Bước 1: Chọn loại dữ liệu**
+Không còn step wizard phức tạp, tất cả trên 1 trang:
 
-- Chọn 1 trong các loại dữ liệu từ grid
-- Nhập thông tin tương ứng
-- Nhấn "Tiếp theo" để sang bước kế
+1. **Chọn loại dữ liệu**
+   - Click vào 1 trong các card: URL, Text, Email, WhatsApp, Instagram, v.v.
+   
+2. **Nhập thông tin**
+   - Điền thông tin tương ứng vào form
+   - VD: URL, email, số điện thoại, username, v.v.
+   
+3. **Tùy chỉnh (tuỳ chọn)**
+   - Chọn màu sắc QR code và background
+   - Thêm logo (auto-crop vuông 1:1) hoặc text ở giữa
+   - Bật UTM tracking cho URL marketing
+   
+4. **Live Preview**
+   - QR code tự động hiển thị khi bạn nhập/thay đổi thông tin
+   - Không cần bấm nút Generate - tự động update!
+   
+5. **Download**
+   - Chọn format: PNG, SVG, hoặc PDF
+   - Tải về máy tuỳ ý
 
-**Bước 2: Tùy chỉnh giao diện**
+### 🐛 Báo lỗi
 
-- Chọn màu sắc QR code (với kiểm tra độ tương phản)
-- Thêm logo hoặc text ở giữa (tùy chọn)
-
-**Bước 3: Cài đặt nâng cao**
-
-- Thêm UTM tracking cho URL (tùy chọn)
-- Xem preview QR code
-
-**Bước 4: Export**
-
-- Chọn format: PNG, SVG, hoặc PDF
-- Download QR code về máy
+- Nút "🐛 Báo Lỗi" floating ở góc phải màn hình
+- Tự động tracking tất cả hành động của bạn
+- Copy report và gửi qua GitHub Issues hoặc Messenger
 
 ## 🛠️ Công nghệ
 
@@ -107,12 +117,13 @@ Tạo QR code cho nhiều mục đích khác nhau:
 qr-code-generator/
 ├── index.html              # File HTML chính
 ├── js/
-│   ├── app.js             # Logic chính, wizard controller
+│   ├── app.js             # Logic chính, event handlers
 │   ├── qr-generator.js    # QR generation & styling
 │   ├── translations.js    # Multi-language data
-│   └── utils.js           # Helper functions
+│   ├── utils.js           # Theme, Language, Wizard controllers
+│   └── logger.js          # Activity logger & error reporting
 ├── css/
-│   └── style.css          # Custom styles
+│   └── style.css          # Custom styles, responsive
 ├── package.json           # Dependencies & scripts
 ├── .eslintrc.json         # ESLint config
 ├── .prettierrc.json       # Prettier config

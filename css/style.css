@@ -278,6 +278,9 @@ body.no-icons .icon-fallback {
 /* QR Code Responsive */
 #qrcode {
     max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #qrcode canvas,
@@ -285,13 +288,58 @@ body.no-icons .icon-fallback {
     max-width: 100% !important;
     height: auto !important;
     width: auto !important;
+    display: block;
 }
 
-/* Mobile: smaller QR size */
+/* Desktop: max 300px */
+@media (min-width: 769px) {
+    #qrcode canvas,
+    #qrcode img {
+        max-width: 300px !important;
+        max-height: 300px !important;
+    }
+}
+
+/* Mobile: smaller QR size - max 280px */
 @media (max-width: 768px) {
     #qrcode canvas,
     #qrcode img {
         max-width: 280px !important;
         max-height: 280px !important;
+    }
+    
+    /* Adjust preview container on mobile */
+    #qrcode {
+        min-height: 300px !important;
+    }
+}
+
+/* Extra small mobile */
+@media (max-width: 480px) {
+    #qrcode canvas,
+    #qrcode img {
+        max-width: 240px !important;
+        max-height: 240px !important;
+    }
+    
+    #qrcode {
+        min-height: 260px !important;
+    }
+}
+
+/* Error report button responsive */
+#errorReportBtn {
+    transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    #errorReportBtn {
+        bottom: 1rem;
+        right: 1rem;
+        padding: 0.75rem;
+    }
+    
+    #errorReportBtn span {
+        display: none !important;
     }
 }

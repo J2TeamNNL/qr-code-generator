@@ -1,7 +1,8 @@
 // Main application logic
 import { translations } from './translations.js';
-import { ThemeManager, LanguageManager, WizardController } from './utils.js';
+import { ThemeManager, LanguageManager } from './utils.js';
 import { QRGenerator } from './qr-generator.js';
+import { ActivityLogger, createErrorReportButton } from './logger.js';
 
 // Make translations available globally
 window.translations = translations;
@@ -325,25 +326,45 @@ const fields = {
 
 let selectedDataType = 'url';
 
+// Auto-generate QR with debounce
+let generateTimeout;
+const autoGenerateQR = () => {
+    clearTimeout(generateTimeout);
+    generateTimeout = setTimeout(() => {
+        window.generateQR();
+    }, 500); // Debounce 500ms
+};
+
 // Initialize app
 function init() {
+    // Initialize logger first
+    ActivityLogger.init();
+    ActivityLogger.log('App initialized');
+    
     ThemeManager.init();
     LanguageManager.init();
-    WizardController.init();
     
     // Render data types from config
     renderDataTypes();
     
     setupEventListeners();
     updateFields();
+    
+    // Create error report button
+    createErrorReportButton();
+    
+    ActivityLogger.log('UI rendered', { dataTypesCount: Object.keys(dataTypes).length });
 }
 
 // Expose functions to global scope for onclick handlers
-window.toggleDarkMode = () => ThemeManager.toggle();
-window.toggleLanguage = () => LanguageManager.toggle();
-window.nextStep = () => WizardController.next();
-window.prevStep = () => WizardController.prev();
-window.goToStep = (step) => WizardController.showStep(step);
+window.toggleDarkMode = () => {
+    ActivityLogger.log('Theme toggled');
+    ThemeManager.toggle();
+};
+window.toggleLanguage = () => {
+    ActivityLogger.log('Language toggled', { to: LanguageManager.current === 'vi' ? 'en' : 'vi' });
+    LanguageManager.toggle();
+};
 
 // Test function for debugging
 window.testQR = async () => {
@@ -392,25 +413,47 @@ function setupEventListeners() {
     // QR Generation
     window.generateQR = async () => {
         const data = await getData();
-        if (!data) return;
+        if (!data) {
+            return; // Silently fail if no data
+        }
         
         const centerOption = document.querySelector('input[name="centerOption"]:checked')?.value;
         const hasLogo = centerOption === 'logo' && document.getElementById('logoFile')?.files[0];
         const hasText = centerOption === 'text' && document.getElementById('centerText')?.value;
+        const colorDark = document.getElementById('qrColorDark')?.value || '#000000';
+        const colorLight = document.getElementById('qrColorLight')?.value || '#ffffff';
         
-        await QRGenerator.generate(data, {
-            colorDark: document.getElementById('qrColorDark')?.value || '#000000',
-            colorLight: document.getElementById('qrColorLight')?.value || '#ffffff',
+        ActivityLogger.log('QR generation started', {
+            dataType: selectedDataType,
+            dataLength: data.length,
+            centerOption,
             hasLogo,
             hasText,
-            correctLevel: (hasLogo || hasText) ? QRCode.CorrectLevel.H : QRCode.CorrectLevel.M,
+            colorDark,
+            colorLight,
         });
         
-        // Stay at step 3 and show export buttons
+        try {
+            await QRGenerator.generate(data, {
+                colorDark,
+                colorLight,
+                hasLogo,
+                hasText,
+                correctLevel: (hasLogo || hasText) ? QRCode.CorrectLevel.H : QRCode.CorrectLevel.M,
+            });
+            
+            ActivityLogger.log('QR generation successful');
+        } catch (error) {
+            ActivityLogger.log('QR generation error', { error: error.message });
+            console.error('QR Generation Error:', error);
+        }
     };
     
     // Download
-    window.downloadQR = (format) => QRGenerator.download(format);
+    window.downloadQR = (format) => {
+        ActivityLogger.log('Download QR', { format });
+        QRGenerator.download(format);
+    };
     
     // Data type selection
     document.querySelectorAll('.data-card').forEach(card => {
@@ -423,16 +466,16 @@ function setupEventListeners() {
             
             // Update selected type and show inputs
             selectedDataType = card.dataset.type;
+            ActivityLogger.log('Data type selected', { type: selectedDataType });
             updateFields();
-            
-            // DON'T auto-next - let user fill inputs first
-            // User will click Next button manually
         });
     });
     
     // Center option radios
     document.querySelectorAll('input[name="centerOption"]').forEach(radio => {
         radio.addEventListener('change', function() {
+            ActivityLogger.log('Center option changed', { option: this.value });
+            
             const logoFile = document.getElementById('logoFile');
             const centerText = document.getElementById('centerText');
             const centerTextColor = document.getElementById('centerTextColor');
@@ -440,6 +483,9 @@ function setupEventListeners() {
             if (logoFile) logoFile.disabled = this.value !== 'logo';
             if (centerText) centerText.disabled = this.value !== 'text';
             if (centerTextColor) centerTextColor.disabled = this.value !== 'text';
+            
+            // Auto-generate when option changes
+            autoGenerateQR();
         });
     });
     
@@ -472,9 +518,14 @@ function setupEventListeners() {
                     preview.appendChild(img);
                 }
                 
+                ActivityLogger.log('Logo uploaded and cropped', { fileName: file.name, fileSize: file.size });
                 console.log('✓ Logo cropped and ready');
+                
+                // Auto-generate after logo upload
+                autoGenerateQR();
             } catch (error) {
                 console.error('Failed to process logo:', error);
+                ActivityLogger.log('Logo processing error', { error: error.message });
                 if (preview) {
                     preview.classList.remove('hidden');
                     preview.innerHTML = '<p class="text-sm text-red-500">❌ Lỗi xử lý ảnh</p>';
@@ -487,100 +538,33 @@ function setupEventListeners() {
     const enableCampaign = document.getElementById('enableCampaign');
     if (enableCampaign) {
         enableCampaign.addEventListener('change', function() {
+            ActivityLogger.log('Campaign tracking toggled', { enabled: this.checked });
             document.getElementById('campaignFields')?.classList.toggle('hidden', !this.checked);
+            autoGenerateQR();
         });
     }
+    
+    // Color pickers - auto-generate on change
+    const colorDark = document.getElementById('qrColorDark');
+    const colorLight = document.getElementById('qrColorLight');
+    if (colorDark) colorDark.addEventListener('input', autoGenerateQR);
+    if (colorLight) colorLight.addEventListener('input', autoGenerateQR);
+    
+    // Center text - auto-generate on change
+    const centerText = document.getElementById('centerText');
+    const centerTextColor = document.getElementById('centerTextColor');
+    if (centerText) centerText.addEventListener('input', autoGenerateQR);
+    if (centerTextColor) centerTextColor.addEventListener('input', autoGenerateQR);
+    
+    // UTM fields - auto-generate on change
+    const utmSource = document.getElementById('utmSource');
+    const utmMedium = document.getElementById('utmMedium');
+    const utmCampaign = document.getElementById('utmCampaign');
+    if (utmSource) utmSource.addEventListener('input', autoGenerateQR);
+    if (utmMedium) utmMedium.addEventListener('input', autoGenerateQR);
+    if (utmCampaign) utmCampaign.addEventListener('input', autoGenerateQR);
 }
 
-// Validate step 1 inputs
-function validateStep1() {
-    const inputs = document.querySelectorAll('#inputFields input:not([type="file"]), #inputFields select');
-    let allValid = inputs.length > 0;
-    
-    inputs.forEach(input => {
-        const value = input.value.trim();
-        let isValid = true;
-        let errorMessage = '';
-        const errorEl = document.getElementById(`error-${input.name}`);
-        
-        // Check if empty
-        if (!value) {
-            isValid = false;
-            input.classList.remove('border-green-500', 'border-red-500');
-            input.classList.add('border-gray-200', 'dark:border-gray-600');
-            if (errorEl) errorEl.classList.add('hidden');
-        } else {
-            // Validate format based on field type
-            const fieldName = input.name;
-            let validator = null;
-            
-            // Map field names to validators
-            if (fieldName === 'url' || fieldName === 'link') {
-                validator = validators.url;
-            } else if (fieldName === 'email') {
-                validator = validators.email;
-            } else if (fieldName === 'phone' || fieldName === 'number') {
-                validator = validators.phone;
-            } else if (fieldName === 'username') {
-                // Use type-specific validator
-                validator = validators[selectedDataType];
-            }
-            
-            // Validate if validator exists
-            if (validator) {
-                const result = validator(value);
-                isValid = result.valid;
-                
-                // Translate error message
-                if (result.messageKey) {
-                    errorMessage = LanguageManager.translate(result.messageKey);
-                }
-                
-                // Visual feedback
-                input.classList.remove('border-gray-200', 'dark:border-gray-600');
-                if (isValid) {
-                    input.classList.remove('border-red-500');
-                    input.classList.add('border-green-500');
-                    if (errorEl) errorEl.classList.add('hidden');
-                } else {
-                    input.classList.remove('border-green-500');
-                    input.classList.add('border-red-500');
-                    if (errorEl) {
-                        errorEl.textContent = errorMessage;
-                        errorEl.classList.remove('hidden');
-                    }
-                }
-            } else {
-                // No validator, just check if filled
-                input.classList.remove('border-gray-200', 'dark:border-gray-600', 'border-red-500');
-                input.classList.add('border-green-500');
-                if (errorEl) errorEl.classList.add('hidden');
-            }
-        }
-        
-        if (!isValid) allValid = false;
-    });
-    
-    const nextBtn = document.getElementById('nextBtn');
-    if (nextBtn) {
-        nextBtn.disabled = !allValid;
-        nextBtn.classList.toggle('opacity-50', !allValid);
-        nextBtn.classList.toggle('cursor-not-allowed', !allValid);
-        nextBtn.classList.toggle('pointer-events-none', !allValid);
-    }
-    
-    // Unlock step 2 & 3 tabs when step 1 is valid
-    const tab2 = document.getElementById('tab2');
-    const tab3 = document.getElementById('tab3');
-    if (tab2) tab2.classList.toggle('opacity-50', !allValid);
-    if (tab3) tab3.classList.toggle('opacity-50', !allValid);
-    
-    // Enable/disable tab clicks
-    if (tab2) tab2.style.pointerEvents = allValid ? 'auto' : 'none';
-    if (tab3) tab3.style.pointerEvents = allValid ? 'auto' : 'none';
-    
-    return allValid;
-}
 
 // Update input fields based on selected data type
 function updateFields() {
@@ -617,15 +601,9 @@ function updateFields() {
         input.name = field.name;
         input.className = 'w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all input-bg';
         
-        // Add validation listener with debounce
-        let timeout;
-        input.addEventListener('input', () => {
-            clearTimeout(timeout);
-            timeout = setTimeout(validateStep1, 300);
-        });
-        
-        // Add blur validation for immediate feedback
-        input.addEventListener('blur', validateStep1);
+        // Auto-generate on input change
+        input.addEventListener('input', autoGenerateQR);
+        input.addEventListener('change', autoGenerateQR);
         
         div.appendChild(label);
         div.appendChild(input);
@@ -645,9 +623,6 @@ function updateFields() {
     if (campaignSection) {
         campaignSection.classList.toggle('hidden', !hasCampaign);
     }
-    
-    // Initial validation
-    setTimeout(validateStep1, 100);
 }
 
 // Get data from inputs with validation

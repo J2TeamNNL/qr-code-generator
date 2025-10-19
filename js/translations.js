@@ -4,20 +4,9 @@ const translations = {
         title: 'QR Code Generator',
         subtitle: 'Tạo mã QR miễn phí với nhiều tùy chọn tùy chỉnh',
         
-        // Steps
-        step1_title: 'Bước 1: Chọn Dữ Liệu',
-        step2_title: 'Bước 2: Tùy Chỉnh',
-        step3_title: 'Bước 3: Xem & Xuất',
-        
-        // Buttons
-        btn_next: 'Tiếp theo',
-        btn_prev: 'Quay lại',
-        btn_generate: 'Tạo QR Code',
-        
         // Headers
         select_data_type: 'Chọn loại dữ liệu',
         customize_qr: 'Tùy chỉnh giao diện QR',
-        preview_export: 'Xem & Xuất QR Code',
         
         // QR Colors
         qr_colors: 'Màu sắc QR Code:',
@@ -85,20 +74,9 @@ const translations = {
         title: 'QR Code Generator',
         subtitle: 'Create free QR codes with multiple customization options',
         
-        // Steps
-        step1_title: 'Step 1: Choose Data',
-        step2_title: 'Step 2: Customize',
-        step3_title: 'Step 3: Preview & Export',
-        
-        // Buttons
-        btn_next: 'Next',
-        btn_prev: 'Previous',
-        btn_generate: 'Generate QR',
-        
         // Headers
         select_data_type: 'Select data type',
         customize_qr: 'Customize QR appearance',
-        preview_export: 'Preview & Export QR Code',
         
         // QR Colors
         qr_colors: 'QR Code Colors:',

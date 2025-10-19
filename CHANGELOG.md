@@ -2,6 +2,78 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.0] - 2025-10-19 ✅ COMPLETED
+
+### ✨ UX Improvements
+
+#### 🎯 Single-Page Flow - No More Steps!
+- **Bỏ hẳn Step Wizard** - Không còn tabs, không còn navigation
+- **One-page layout** - Tất cả hiển thị trên cung 1 trang:
+  1. Chọn loại dữ liệu (URL, Text, Email, WhatsApp, v.v.)
+  2. Nhập thông tin cần thiết
+  3. Tùy chỉnh màu sắc, logo/text, UTM tracking
+  4. **Live Preview** tự động update ở dưới cùng
+  5. Download (PNG/SVG/PDF)
+- **Scroll-based UX** - Không cần click Next/Prev, chỉ cần scroll xuống
+- **True Live Preview** - QR code tự động update khi thay đổi bất kỳ input nào (debounce 500ms)
+- **No validation blocking** - Không còn disable controls hay lock sections
+
+#### 🐛 Debug & Error Reporting System
+- **Nút "Báo Lỗi"** ở góc phải màn hình (floating button)
+- **Activity Logger** - Tự động lưu tất cả actions của người dùng:
+  - Data type selection
+  - Input changes
+  - Customization options
+  - QR generation events
+  - Download actions
+- **Error Report Dialog** - Popup textarea hiển thị:
+  - User actions log
+  - Console errors
+  - System info (browser, screen size)
+  - QR configuration
+- **Quick Share** - Copy để gửi qua:
+  - GitHub Issues
+  - Messenger (direct link)
+
+#### 📱 Mobile Responsiveness
+- **QR Code Responsive Fixed** - Đảm bảo QR luôn fit màn hình
+- CSS `max-width: 100%` cho canvas và image
+- Mobile: giới hạn max 280px x 280px
+- Desktop: max 300px x 300px
+- Auto scale với `width: auto`, `height: auto`
+
+#### ✅ Quality Checks
+- **Logo/Text Insertion** - Verified working correctly
+  - Logo: 20% QR size với white background
+  - Text: 18% QR size với truncate (max 10 chars)
+  - Border và padding phù hợp
+  - Error Correction Level H khi có logo/text
+
+### 🔧 Technical Changes
+
+#### Files Created:
+- `js/logger.js` - Activity Logger & Error Reporting System
+
+#### Files Modified:
+- `index.html` - Removed step tabs/wizard/Generate button, single-page layout, live preview at bottom
+- `js/app.js` - Removed WizardController, added auto-generate with debounce (500ms)
+- `js/utils.js` - Removed WizardController completely
+- `js/translations.js` - Removed unused keys (step titles, navigation buttons)
+- `css/style.css` - Enhanced QR responsive with breakpoints (300px/280px/240px)
+- `README.md` - Updated documentation with live preview flow
+- `CHANGELOG.md` - This file
+
+#### Key Changes:
+- Activity tracking system với console intercept
+- Error boundary handling với global error listeners  
+- User action logger với timestamp (max 100 logs)
+- **Single-page layout**: Input → Customization → Live Preview (bottom)
+- **No step wizard**: Bỏ hẳn tabs, navigation buttons, validation blocking
+- **True Live Preview**: Auto-generate khi thay đổi input/color/logo/text (debounce 500ms)
+- CSS: Responsive breakpoints cho desktop/mobile/extra-small
+
+---
+
 ## [2.0.0] - 2025-10-17 ✅ COMPLETED
 
 ### 🎉 Final Release Notes
