@@ -374,7 +374,7 @@ window.testQR = async () => {
 
 // Render data type cards from config
 function renderDataTypes() {
-    const container = document.querySelector('.grid.grid-cols-2.md\\:grid-cols-4');
+    const container = document.getElementById('dataTypeGrid');
     if (!container) return;
     
     // Clear existing cards
@@ -407,6 +407,33 @@ function renderDataTypes() {
         container.appendChild(card);
     });
 }
+
+// Tab switching function
+window.switchTab = (tabName) => {
+    ActivityLogger.log('Tab switched', { tab: tabName });
+    
+    // Hide all tab contents
+    document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.add('hidden');
+    });
+    
+    // Remove active from all tabs
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    
+    // Show selected tab content
+    const selectedContent = document.getElementById(`tab-${tabName}`);
+    if (selectedContent) {
+        selectedContent.classList.remove('hidden');
+    }
+    
+    // Add active to selected tab
+    const selectedTab = document.querySelector(`[data-tab="${tabName}"]`);
+    if (selectedTab) {
+        selectedTab.classList.add('active');
+    }
+};
 
 // Setup all event listeners
 function setupEventListeners() {
