@@ -7,6 +7,8 @@ const translations = {
         // Headers
         select_data_type: 'Chọn loại dữ liệu',
         customize_qr: 'Tùy chỉnh giao diện QR',
+        tab_data_input: 'Nhập dữ liệu',
+        tab_customize: 'Tùy chỉnh',
         
         // QR Colors
         qr_colors: 'Màu sắc QR Code:',
@@ -102,6 +104,8 @@ const translations = {
         // Headers
         select_data_type: 'Select data type',
         customize_qr: 'Customize QR appearance',
+        tab_data_input: 'Data Input',
+        tab_customize: 'Customize',
         
         // QR Colors
         qr_colors: 'QR Code Colors:',

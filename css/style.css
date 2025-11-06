@@ -202,28 +202,33 @@ label {
 /* Step Wizard Tabs */
 .tab {
     position: relative;
-    padding: 1rem 1.5rem;
+    padding: 0.75rem 1rem;
     cursor: pointer;
     transition: all 0.3s ease;
+    border-bottom: 3px solid transparent;
 }
 
 .tab.active {
     color: #6366f1;
     font-weight: 600;
+    border-bottom-color: #6366f1;
 }
 
-.tab.active::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(to right, #6366f1, #8b5cf6);
+.tab:not(.active) {
+    color: #6b7280;
 }
 
 .tab:not(.active):hover {
-    background-color: rgba(99, 102, 241, 0.1);
+    background-color: rgba(99, 102, 241, 0.05);
+    color: #6366f1;
+}
+
+.tab-content {
+    display: block;
+}
+
+.tab-content.hidden {
+    display: none;
 }
 
 /* Data Type Cards */
@@ -259,6 +264,22 @@ label {
 .dark .data-card.active-card {
     background: linear-gradient(135deg, #312e81 0%, #3730a3 100%);
     border-color: #818cf8 !important;
+}
+
+/* Mobile: Smaller icons in data cards */
+@media (max-width: 768px) {
+    .data-card .text-4xl {
+        font-size: 1.75rem !important;
+        line-height: 1.75rem !important;
+    }
+    
+    .data-card {
+        padding: 0.75rem !important;
+    }
+    
+    .data-card .text-sm {
+        font-size: 0.7rem !important;
+    }
 }
 
 /* Icon Fallback System */
@@ -324,6 +345,24 @@ body.no-icons .icon-fallback {
     
     #qrcode {
         min-height: 260px !important;
+    }
+}
+
+/* Header buttons responsive */
+.header-buttons {
+    z-index: 10;
+}
+
+@media (max-width: 768px) {
+    .header-buttons {
+        position: absolute !important;
+        top: 0;
+        right: 0;
+        justify-content: flex-end;
+    }
+    
+    .header-buttons button {
+        font-size: 0.875rem;
     }
 }
 
