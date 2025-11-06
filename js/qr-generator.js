@@ -1,4 +1,5 @@
 // QR Code Generator & Styling
+import { LanguageManager } from './utils.js';
 
 const QRGenerator = {
     canvas: null,
@@ -35,7 +36,7 @@ const QRGenerator = {
         qrContainer.innerHTML = '';
         
         if (!data) {
-            alert('Vui lòng nhập đầy đủ thông tin!');
+            alert(LanguageManager.translate('alert_please_fill'));
             return;
         }
 
@@ -84,7 +85,7 @@ const QRGenerator = {
 
             document.getElementById('downloadSection').classList.remove('hidden');
         } catch (error) {
-            alert('Dữ liệu quá dài! Vui lòng rút ngắn nội dung.');
+            alert(LanguageManager.translate('alert_data_too_long'));
             console.error(error);
         }
     },
@@ -175,12 +176,12 @@ const QRGenerator = {
                 };
                 logo.onerror = () => {
                     console.error('Failed to load logo');
-                    alert('Không thể tải logo. Vui lòng thử file khác.');
+                    alert(LanguageManager.translate('alert_logo_load_failed'));
                 };
                 logo.src = URL.createObjectURL(croppedBlob);
             }).catch((error) => {
                 console.error('Failed to crop image:', error);
-                alert('Không thể xử lý ảnh. Vui lòng thử file khác.');
+                alert(LanguageManager.translate('alert_image_process_failed'));
             });
         } else if (centerOption === 'text' && centerText) {
             // SAFE SIZE: 18% of QR for text
