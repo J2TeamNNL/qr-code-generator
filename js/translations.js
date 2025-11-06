@@ -16,8 +16,8 @@ const translations = {
         
         // QR Size
         qr_size: 'Kích thước QR Code:',
-        size_small: 'Nhỏ',
-        size_large: 'Lớn',
+        qr_size_input: 'Nhập kích thước (px):',
+        qr_size_hint: 'Khuyến nghị: 200-500px cho web, 300-800px cho in ấn',
         
         // Center customization
         customize_center: 'Tùy chỉnh giữa QR:',
@@ -91,8 +91,8 @@ const translations = {
         
         // QR Size
         qr_size: 'QR Code Size:',
-        size_small: 'Small',
-        size_large: 'Large',
+        qr_size_input: 'Enter size (px):',
+        qr_size_hint: 'Recommended: 200-500px for web, 300-800px for print',
         
         // Center customization
         customize_center: 'Customize center:',

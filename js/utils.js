@@ -82,6 +82,14 @@ const LanguageManager = {
             }
         });
         
+        // Handle placeholder translations separately
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+            const key = el.getAttribute('data-i18n-placeholder');
+            if (translations[this.current][key]) {
+                el.placeholder = translations[this.current][key];
+            }
+        });
+        
         // Re-render dynamic fields if needed
         if (typeof updateFields === 'function') {
             updateFields();
