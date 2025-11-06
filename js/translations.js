@@ -74,6 +74,26 @@ const translations = {
         error_instagram_invalid: 'Vui lòng nhập username Instagram hoặc link profile',
         error_telegram_invalid: 'Vui lòng nhập username Telegram',
         error_spotify_invalid: 'Vui lòng nhập link Spotify hợp lệ',
+        
+        // Alert messages
+        alert_please_fill: 'Vui lòng nhập đầy đủ thông tin!',
+        alert_data_too_long: 'Dữ liệu quá dài! Vui lòng rút ngắn nội dung.',
+        alert_logo_load_failed: 'Không thể tải logo. Vui lòng thử file khác.',
+        alert_image_process_failed: 'Không thể xử lý ảnh. Vui lòng thử file khác.',
+        
+        // Logo processing messages
+        logo_processing: '⏳ Đang xử lý ảnh...',
+        logo_cropped: '✓ Ảnh đã được crop vuông:',
+        logo_error: '❌ Lỗi xử lý ảnh',
+        
+        // Error report
+        error_report_title: 'Báo Lỗi',
+        error_report_desc: 'Dưới đây là thông tin chi tiết về hoạt động của bạn. Hãy copy và gửi cho chúng tôi!',
+        error_report_copy: 'Copy Báo Cáo',
+        error_report_close: 'Đóng',
+        error_report_copied: 'Đã Copy!',
+        error_report_button: 'Báo Lỗi',
+        error_report_button_title: 'Báo lỗi hoặc gửi feedback',
     },
     en: {
         title: 'QR Code Generator',
@@ -149,6 +169,26 @@ const translations = {
         error_instagram_invalid: 'Please enter Instagram username or profile link',
         error_telegram_invalid: 'Please enter Telegram username',
         error_spotify_invalid: 'Please enter valid Spotify link',
+        
+        // Alert messages
+        alert_please_fill: 'Please fill in all required information!',
+        alert_data_too_long: 'Data is too long! Please shorten the content.',
+        alert_logo_load_failed: 'Failed to load logo. Please try another file.',
+        alert_image_process_failed: 'Failed to process image. Please try another file.',
+        
+        // Logo processing messages
+        logo_processing: '⏳ Processing image...',
+        logo_cropped: '✓ Image cropped to square:',
+        logo_error: '❌ Image processing error',
+        
+        // Error report
+        error_report_title: 'Error Report',
+        error_report_desc: 'Below is detailed information about your activity. Please copy and send it to us!',
+        error_report_copy: 'Copy Report',
+        error_report_close: 'Close',
+        error_report_copied: 'Copied!',
+        error_report_button: 'Report Error',
+        error_report_button_title: 'Report error or send feedback',
     },
 };
 

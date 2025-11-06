@@ -1,4 +1,5 @@
 // Activity Logger & Error Reporting System
+import { LanguageManager } from './utils.js';
 
 const ActivityLogger = {
     logs: [],
@@ -126,10 +127,10 @@ const ActivityLogger = {
                 <div class="p-6 border-b border-gray-200 dark:border-gray-700">
                     <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100 flex items-center gap-3">
                         <span class="text-3xl">🐛</span>
-                        <span>Báo Lỗi</span>
+                        <span data-i18n-dynamic="error_report_title">${LanguageManager.translate('error_report_title')}</span>
                     </h2>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
-                        Dưới đây là thông tin chi tiết về hoạt động của bạn. Hãy copy và gửi cho chúng tôi!
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-2" data-i18n-dynamic="error_report_desc">
+                        ${LanguageManager.translate('error_report_desc')}
                     </p>
                 </div>
                 
@@ -150,13 +151,14 @@ const ActivityLogger = {
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                             </svg>
-                            Copy Báo Cáo
+                            <span data-i18n-dynamic="error_report_copy">${LanguageManager.translate('error_report_copy')}</span>
                         </button>
                         <button 
                             id="closeReportBtn"
                             class="px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-semibold rounded-xl hover:bg-gray-300 dark:hover:bg-gray-600 transition-all"
+                            data-i18n-dynamic="error_report_close"
                         >
-                            Đóng
+                            ${LanguageManager.translate('error_report_close')}
                         </button>
                     </div>
                     
@@ -188,6 +190,17 @@ const ActivityLogger = {
         
         document.body.appendChild(modal);
         
+        // Update translations for dynamic content
+        const titleSpan = modal.querySelector('[data-i18n-dynamic="error_report_title"]');
+        const descP = modal.querySelector('[data-i18n-dynamic="error_report_desc"]');
+        const copySpan = modal.querySelector('[data-i18n-dynamic="error_report_copy"]');
+        const closeBtn = modal.querySelector('[data-i18n-dynamic="error_report_close"]');
+        
+        if (titleSpan) titleSpan.textContent = LanguageManager.translate('error_report_title');
+        if (descP) descP.textContent = LanguageManager.translate('error_report_desc');
+        if (copySpan) copySpan.textContent = LanguageManager.translate('error_report_copy');
+        if (closeBtn) closeBtn.textContent = LanguageManager.translate('error_report_close');
+        
         // Event listeners
         document.getElementById('copyReportBtn').addEventListener('click', () => {
             const textarea = document.getElementById('errorReport');
@@ -197,7 +210,7 @@ const ActivityLogger = {
             // Visual feedback
             const btn = document.getElementById('copyReportBtn');
             const originalText = btn.innerHTML;
-            btn.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Đã Copy!';
+            btn.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> ${LanguageManager.translate('error_report_copied')}`;
             setTimeout(() => {
                 btn.innerHTML = originalText;
             }, 2000);
@@ -221,13 +234,25 @@ function createErrorReportButton() {
     const button = document.createElement('button');
     button.id = 'errorReportBtn';
     button.className = 'fixed bottom-6 right-6 bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white font-bold p-4 rounded-full shadow-2xl transition-all transform hover:scale-110 z-40 flex items-center gap-2';
-    button.innerHTML = `
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-        </svg>
-        <span class="hidden md:inline">Báo Lỗi</span>
-    `;
-    button.title = 'Báo lỗi hoặc gửi feedback';
+    const updateButtonText = () => {
+        button.innerHTML = `
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+            </svg>
+            <span class="hidden md:inline">${LanguageManager.translate('error_report_button')}</span>
+        `;
+        button.title = LanguageManager.translate('error_report_button_title');
+    };
+    updateButtonText();
+    
+    // Update button text when language changes
+    const originalUpdateUI = LanguageManager.updateUI;
+    LanguageManager.updateUI = function() {
+        originalUpdateUI.call(this);
+        if (document.getElementById('errorReportBtn')) {
+            updateButtonText();
+        }
+    };
     
     button.addEventListener('click', () => {
         ActivityLogger.log('Opened error report dialog');

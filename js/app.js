@@ -503,7 +503,7 @@ function setupEventListeners() {
             const preview = document.getElementById('logoPreview');
             if (preview) {
                 preview.classList.remove('hidden');
-                preview.innerHTML = '<p class="text-sm text-gray-500">⏳ Đang xử lý ảnh...</p>';
+                preview.innerHTML = `<p class="text-sm text-gray-500">${LanguageManager.translate('logo_processing')}</p>`;
             }
             
             try {
@@ -517,7 +517,7 @@ function setupEventListeners() {
                 
                 if (preview) {
                     preview.classList.remove('hidden');
-                    preview.innerHTML = '<p class="text-xs text-gray-500 dark:text-gray-400 mb-2">✓ Ảnh đã được crop vuông:</p>';
+                    preview.innerHTML = `<p class="text-xs text-gray-500 dark:text-gray-400 mb-2">${LanguageManager.translate('logo_cropped')}</p>`;
                     preview.appendChild(img);
                 }
                 
@@ -531,7 +531,7 @@ function setupEventListeners() {
                 ActivityLogger.log('Logo processing error', { error: error.message });
                 if (preview) {
                     preview.classList.remove('hidden');
-                    preview.innerHTML = '<p class="text-sm text-red-500">❌ Lỗi xử lý ảnh</p>';
+                    preview.innerHTML = `<p class="text-sm text-red-500">${LanguageManager.translate('logo_error')}</p>`;
                 }
             }
         });
