@@ -50,6 +50,7 @@ const QRGenerator = {
             hasLogo = false,
             hasText = false,
             correctLevel = QRCode.CorrectLevel.M,
+            size = 300,
         } = options;
         
         // Validate color contrast
@@ -61,11 +62,11 @@ const QRGenerator = {
         }
         
         try {
-            // Step 1: Generate base QR code with user colors
+            // Step 1: Generate base QR code with user colors and dynamic size
             this.qrCodeInstance = new QRCode(qrContainer, {
                 text: String(data),
-                width: 300,
-                height: 300,
+                width: size,
+                height: size,
                 colorDark: colorDark,
                 colorLight: colorLight,
                 // Use High error correction if adding logo/text
@@ -214,29 +215,28 @@ const QRGenerator = {
     },
     
     download(format = 'png') {
-        const canvas = document.querySelector('#qrcode canvas');
         const img = document.querySelector('#qrcode img');
         
-        if (!canvas || !img) return;
+        if (!img) return;
         
         if (format === 'png') {
-            // Use canvas.toBlob for better mobile support
-            canvas.toBlob((blob) => {
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'qrcode.png';
-                a.style.display = 'none';
-                document.body.appendChild(a);
-                a.click();
-                
-                // Cleanup
-                setTimeout(() => {
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
-                }, 100);
-            }, 'image/png');
+            // Use img element to ensure logo/text is included
+            const a = document.createElement('a');
+            a.href = img.src;
+            a.download = 'qrcode.png';
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            
+            // Cleanup
+            setTimeout(() => {
+                document.body.removeChild(a);
+            }, 100);
         } else if (format === 'svg') {
+            // For SVG, need to convert from img src
+            const canvas = document.querySelector('#qrcode canvas');
+            if (!canvas) return;
+            
             const svgData = this.canvasToSVG(canvas);
             const blob = new Blob([svgData], { type: 'image/svg+xml' });
             const url = URL.createObjectURL(blob);
@@ -260,7 +260,8 @@ const QRGenerator = {
                 format: 'a4',
             });
             
-            const imgData = canvas.toDataURL('image/png');
+            // Use img src to include logo/text
+            const imgData = img.src;
             const pageWidth = pdf.internal.pageSize.getWidth();
             const imgWidth = 80;
             const imgHeight = 80;

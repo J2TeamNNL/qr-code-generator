@@ -291,21 +291,21 @@ body.no-icons .icon-fallback {
     display: block;
 }
 
-/* Desktop: max 300px */
+/* Desktop: respect user-selected size up to 500px */
 @media (min-width: 769px) {
     #qrcode canvas,
     #qrcode img {
-        max-width: 300px !important;
-        max-height: 300px !important;
+        max-width: 500px !important;
+        max-height: 500px !important;
     }
 }
 
-/* Mobile: smaller QR size - max 280px */
+/* Mobile: limit to smaller sizes for better display */
 @media (max-width: 768px) {
     #qrcode canvas,
     #qrcode img {
-        max-width: 280px !important;
-        max-height: 280px !important;
+        max-width: 350px !important;
+        max-height: 350px !important;
     }
     
     /* Adjust preview container on mobile */
@@ -318,8 +318,8 @@ body.no-icons .icon-fallback {
 @media (max-width: 480px) {
     #qrcode canvas,
     #qrcode img {
-        max-width: 240px !important;
-        max-height: 240px !important;
+        max-width: 280px !important;
+        max-height: 280px !important;
     }
     
     #qrcode {

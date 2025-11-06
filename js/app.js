@@ -422,6 +422,7 @@ function setupEventListeners() {
         const hasText = centerOption === 'text' && document.getElementById('centerText')?.value;
         const colorDark = document.getElementById('qrColorDark')?.value || '#000000';
         const colorLight = document.getElementById('qrColorLight')?.value || '#ffffff';
+        const size = parseInt(document.getElementById('qrSize')?.value || 300);
         
         ActivityLogger.log('QR generation started', {
             dataType: selectedDataType,
@@ -431,6 +432,7 @@ function setupEventListeners() {
             hasText,
             colorDark,
             colorLight,
+            size,
         });
         
         try {
@@ -439,6 +441,7 @@ function setupEventListeners() {
                 colorLight,
                 hasLogo,
                 hasText,
+                size,
                 correctLevel: (hasLogo || hasText) ? QRCode.CorrectLevel.H : QRCode.CorrectLevel.M,
             });
             
@@ -550,6 +553,30 @@ function setupEventListeners() {
     if (colorDark) colorDark.addEventListener('input', autoGenerateQR);
     if (colorLight) colorLight.addEventListener('input', autoGenerateQR);
     
+    // QR Size input - validate and auto-generate on blur
+    const qrSize = document.getElementById('qrSize');
+    if (qrSize) {
+        qrSize.addEventListener('blur', function() {
+            let size = parseInt(this.value);
+            // Validate size range
+            if (isNaN(size) || size < 100) {
+                size = 100;
+                this.value = 100;
+            } else if (size > 1000) {
+                size = 1000;
+                this.value = 1000;
+            }
+            ActivityLogger.log('QR size changed', { size });
+            autoGenerateQR();
+        });
+        // Also trigger on Enter key
+        qrSize.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                this.blur();
+            }
+        });
+    }
+    
     // Center text - auto-generate on change
     const centerText = document.getElementById('centerText');
     const centerTextColor = document.getElementById('centerTextColor');
@@ -602,7 +629,8 @@ function updateFields() {
         input.className = 'w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all input-bg';
         
         // Auto-generate on input change
-        input.addEventListener('input', autoGenerateQR);
+        // Use blur event for validation to avoid auto-validate while typing
+        input.addEventListener('blur', autoGenerateQR);
         input.addEventListener('change', autoGenerateQR);
         
         div.appendChild(label);
