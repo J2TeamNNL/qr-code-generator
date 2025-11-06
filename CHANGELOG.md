@@ -2,6 +2,43 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.2.0] - 2025-11-06 ✅ COMPLETED
+
+### ✨ New Features
+
+#### 📏 QR Size Customization
+- **Input type="number"** - Người dùng tự do nhập size từ 100-1000px
+- **Gợi ý thông minh** - "200-500px cho web, 300-800px cho in ấn"
+- **Responsive limits** - Desktop: 500px max, Mobile: 350px/280px max
+- **Validation on blur** - Chỉ validate khi focus ra ngoài (không làm phiền khi gõ)
+
+#### 🎯 UX Improvements
+- **Smart validation** - Chuyển từ `input` → `blur` event cho tất cả fields
+- **Không validate realtime** - Để người dùng nhập xong mới validate
+- **Enter to validate** - Nhấn Enter cũng trigger validation ngay
+
+#### 🐛 Bug Fixes
+- **Logo/text in exports** - Đã fix logo/text hiển thị đầy đủ khi download PNG/PDF
+- **Download logic** - Dùng `img.src` thay vì `canvas.toBlob()` để giữ logo/text
+- **i18n hardcode** - Xóa toàn bộ hardcode text, 100% dùng i18n keys
+
+### 🔧 Technical Changes
+
+#### Files Modified:
+- `index.html` - Đổi slider → number input, xóa hardcode text, thêm i18n attributes
+- `js/qr-generator.js` - Fix download() dùng img.src, accept dynamic size param
+- `js/app.js` - Blur validation, size validation (100-1000px)
+- `js/translations.js` - Thêm `qr_size`, `qr_size_input`, `qr_size_hint`
+- `js/utils.js` - Support `data-i18n-placeholder` attribute
+- `css/style.css` - Xóa slider CSS (-46 lines), update responsive max-width
+
+#### Code Quality:
+- **-29 lines total** - Cleaner, more maintainable code
+- **No linter errors** - ESLint pass ✅
+- **100% i18n** - Không còn hardcode Vietnamese text
+
+---
+
 ## [2.1.0] - 2025-10-19 ✅ COMPLETED
 
 ### ✨ UX Improvements

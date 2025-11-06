@@ -37,14 +37,15 @@ Tạo QR code cho nhiều mục đích khác nhau:
 
 ### 🎨 Tùy chỉnh nâng cao
 
+- **📏 Kích thước QR** - Tùy chỉnh size từ 100px đến 1000px (khuyến nghị: 200-500px cho web, 300-800px cho in ấn)
 - **📷 Logo tùy chỉnh** - Upload ảnh logo để đặt ở giữa QR code (khuyến nghị: ảnh vuông 1:1, tối thiểu 200x200px)
 - **✏️ Text tùy chỉnh** - Thêm text với màu sắc tùy chọn
 - **🌈 Màu sắc** - Tùy chỉnh màu QR và màu nền với kiểm tra độ tương phản
 - **📊 Google Campaign Tracking** - Tự động thêm tham số UTM cho marketing
-- **⚡ True Live Preview** - QR code tự động update khi thay đổi input (không cần bấm Generate)
+- **⚡ Smart Validation** - Validate khi blur/nhấn Enter, không làm phiền khi đang gõ
 - **🌙 Dark Mode** - Tự động nhận diện theo hệ thống hoặc chọn thủ công
-- **🌐 Đa ngôn ngữ** - Tiếng Việt & English
-- **💾 Export đa dạng** - PNG, SVG, PDF
+- **🌐 Đa ngôn ngữ** - Tiếng Việt & English (100% i18n)
+- **💾 Export đa dạng** - PNG, SVG, PDF (bao gồm logo/text)
 - **🐛 Error Reporting** - Hệ thống báo lỗi tích hợp, tracking user activities
 
 ### 🚀 Ưu điểm

@@ -2,12 +2,12 @@
 
 ## ✨ Tính năng
 
-### Realtime Validation
-- ✅ Validate khi user nhập (debounce 300ms)
-- ✅ Validate khi blur (rời khỏi input)
-- ✅ Visual feedback: border xanh (valid) / đỏ (invalid)
-- ✅ Error messages hiển thị dưới input
-- ✅ Disable Next button khi invalid
+### Smart Validation (v2.2.0)
+- ✅ **Validate on blur** - Chỉ validate khi focus ra ngoài input
+- ✅ **No realtime validation** - Không validate khi đang gõ (tránh làm phiền)
+- ✅ **Enter key support** - Nhấn Enter để validate ngay
+- ✅ **Auto QR generation** - Tự động tạo QR sau khi validate thành công
+- ✅ Visual feedback: border colors & error messages
 
 ### Đa ngôn ngữ (i18n)
 - ✅ Error messages hỗ trợ Tiếng Việt & English
