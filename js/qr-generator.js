@@ -50,6 +50,7 @@ const QRGenerator = {
             hasLogo = false,
             hasText = false,
             correctLevel = QRCode.CorrectLevel.M,
+            size = 300,
         } = options;
         
         // Validate color contrast
@@ -61,11 +62,11 @@ const QRGenerator = {
         }
         
         try {
-            // Step 1: Generate base QR code with user colors
+            // Step 1: Generate base QR code with user colors and dynamic size
             this.qrCodeInstance = new QRCode(qrContainer, {
                 text: String(data),
-                width: 300,
-                height: 300,
+                width: size,
+                height: size,
                 colorDark: colorDark,
                 colorLight: colorLight,
                 // Use High error correction if adding logo/text

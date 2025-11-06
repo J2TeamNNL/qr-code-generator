@@ -422,6 +422,7 @@ function setupEventListeners() {
         const hasText = centerOption === 'text' && document.getElementById('centerText')?.value;
         const colorDark = document.getElementById('qrColorDark')?.value || '#000000';
         const colorLight = document.getElementById('qrColorLight')?.value || '#ffffff';
+        const size = parseInt(document.getElementById('qrSize')?.value || 300);
         
         ActivityLogger.log('QR generation started', {
             dataType: selectedDataType,
@@ -431,6 +432,7 @@ function setupEventListeners() {
             hasText,
             colorDark,
             colorLight,
+            size,
         });
         
         try {
@@ -439,6 +441,7 @@ function setupEventListeners() {
                 colorLight,
                 hasLogo,
                 hasText,
+                size,
                 correctLevel: (hasLogo || hasText) ? QRCode.CorrectLevel.H : QRCode.CorrectLevel.M,
             });
             
@@ -549,6 +552,17 @@ function setupEventListeners() {
     const colorLight = document.getElementById('qrColorLight');
     if (colorDark) colorDark.addEventListener('input', autoGenerateQR);
     if (colorLight) colorLight.addEventListener('input', autoGenerateQR);
+    
+    // QR Size slider - auto-generate and update display
+    const qrSize = document.getElementById('qrSize');
+    const qrSizeValue = document.getElementById('qrSizeValue');
+    if (qrSize && qrSizeValue) {
+        qrSize.addEventListener('input', function() {
+            qrSizeValue.textContent = this.value + 'px';
+            ActivityLogger.log('QR size changed', { size: this.value });
+            autoGenerateQR();
+        });
+    }
     
     // Center text - auto-generate on change
     const centerText = document.getElementById('centerText');

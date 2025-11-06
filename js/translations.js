@@ -14,6 +14,11 @@ const translations = {
         bg_color: 'Màu nền:',
         color_warning: '⚠️ Lưu ý: Dùng màu có độ tương phản cao (đen/trắng) để đảm bảo quét được tốt nhất. Màu sáng hoặc màu tương tự nhau có thể làm giảm khả năng scan.',
         
+        // QR Size
+        qr_size: 'Kích thước QR Code:',
+        size_small: 'Nhỏ',
+        size_large: 'Lớn',
+        
         // Center customization
         customize_center: 'Tùy chỉnh giữa QR:',
         add_logo: '📷 Thêm Ảnh',
@@ -83,6 +88,11 @@ const translations = {
         qr_color: 'QR Color:',
         bg_color: 'Background Color:',
         color_warning: '⚠️ Note: Use high contrast colors (black/white) for best scanability. Light or similar colors may reduce scanning ability.',
+        
+        // QR Size
+        qr_size: 'QR Code Size:',
+        size_small: 'Small',
+        size_large: 'Large',
         
         // Center customization
         customize_center: 'Customize center:',

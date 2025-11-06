@@ -291,21 +291,21 @@ body.no-icons .icon-fallback {
     display: block;
 }
 
-/* Desktop: max 300px */
+/* Desktop: respect user-selected size up to 500px */
 @media (min-width: 769px) {
     #qrcode canvas,
     #qrcode img {
-        max-width: 300px !important;
-        max-height: 300px !important;
+        max-width: 500px !important;
+        max-height: 500px !important;
     }
 }
 
-/* Mobile: smaller QR size - max 280px */
+/* Mobile: limit to smaller sizes for better display */
 @media (max-width: 768px) {
     #qrcode canvas,
     #qrcode img {
-        max-width: 280px !important;
-        max-height: 280px !important;
+        max-width: 350px !important;
+        max-height: 350px !important;
     }
     
     /* Adjust preview container on mobile */
@@ -318,13 +318,59 @@ body.no-icons .icon-fallback {
 @media (max-width: 480px) {
     #qrcode canvas,
     #qrcode img {
-        max-width: 240px !important;
-        max-height: 240px !important;
+        max-width: 280px !important;
+        max-height: 280px !important;
     }
     
     #qrcode {
         min-height: 260px !important;
     }
+}
+
+/* QR Size Slider Styling */
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #6366f1;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: #6366f1;
+    cursor: pointer;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    background: #4f46e5;
+    transform: scale(1.1);
+}
+
+input[type="range"]::-moz-range-thumb:hover {
+    background: #4f46e5;
+    transform: scale(1.1);
+}
+
+.dark input[type="range"]::-webkit-slider-thumb {
+    border-color: #1e293b;
+}
+
+.dark input[type="range"]::-moz-range-thumb {
+    border-color: #1e293b;
 }
 
 /* Error report button responsive */

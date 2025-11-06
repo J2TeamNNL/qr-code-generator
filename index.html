@@ -154,6 +154,28 @@
                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-2" data-i18n="color_warning"></p>
                     </div>
 
+                    <!-- QR Size -->
+                    <div class="card-bg rounded-xl p-6 border border-gray-200">
+                        <p class="text-sm font-semibold text-gray-800 dark:text-gray-100 mb-4 flex items-center gap-2">
+                            <span>📏</span>
+                            <span data-i18n="qr_size">Kích thước QR Code:</span>
+                        </p>
+                        
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs text-gray-600 dark:text-gray-400 font-medium" data-i18n="size_small">Nhỏ</span>
+                                <span id="qrSizeValue" class="text-sm font-bold text-indigo-600">300px</span>
+                                <span class="text-xs text-gray-600 dark:text-gray-400 font-medium" data-i18n="size_large">Lớn</span>
+                            </div>
+                            <input type="range" id="qrSize" min="200" max="500" value="300" step="50" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
+                            <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400">
+                                <span>200px</span>
+                                <span>350px</span>
+                                <span>500px</span>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Center Customization -->
                     <div class="card-bg rounded-xl p-6 border border-gray-200">
                         <p class="text-sm font-semibold text-gray-800 dark:text-gray-100 mb-4" data-i18n="customize_center"></p>
