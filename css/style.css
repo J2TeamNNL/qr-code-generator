@@ -366,6 +366,188 @@ body.no-icons .icon-fallback {
     }
 }
 
+/* Color picker + hex input (QRCode Monkey-style) */
+.color-input-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.color-swatch {
+    width: 3.5rem;
+    height: 3rem;
+    padding: 0.15rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    background: none;
+    flex-shrink: 0;
+}
+
+.color-swatch:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+.dark .color-swatch {
+    border-color: #475569;
+}
+
+.color-hex-input {
+    flex: 1;
+    min-width: 0;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 0.875rem;
+    letter-spacing: 0.02em;
+    padding: 0.75rem 1rem;
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 0.75rem;
+}
+
+.color-hex-input:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+.color-hex-input.is-invalid {
+    border-color: #ef4444 !important;
+}
+
+.color-hex-error {
+    font-size: 0.75rem;
+    color: #ef4444;
+    margin-top: 0.375rem;
+}
+
+.logo-preview-img {
+    max-width: 180px;
+    max-height: 96px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    background-color: #ffffff;
+}
+
+.dark .logo-preview-img {
+    background-color: #0f172a;
+}
+
+.mode-chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #374151;
+    background: #ffffff;
+    transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease, transform 0.1s ease;
+}
+
+.mode-chip:hover {
+    border-color: #818cf8;
+    transform: translateY(-1px);
+}
+
+.mode-chip:focus-within {
+    outline: 2px solid #6366f1;
+    outline-offset: 2px;
+}
+
+.mode-chip.is-active {
+    border-color: #6366f1;
+    color: #4338ca;
+    background: #eef2ff;
+}
+
+.dark .mode-chip {
+    background: #0f172a;
+    border-color: #475569;
+    color: #e2e8f0;
+}
+
+.dark .mode-chip.is-active {
+    background: #312e81;
+    border-color: #818cf8;
+    color: #c7d2fe;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.logo-gallery {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.5rem;
+}
+
+.logo-gallery-btn {
+    aspect-ratio: 1;
+    min-height: 44px;
+    padding: 0.5rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 0.75rem;
+    background: #ffffff;
+    cursor: pointer;
+    transition: border-color 0.15s ease, transform 0.1s ease;
+}
+
+.logo-gallery-btn:hover:not(:disabled) {
+    border-color: #818cf8;
+    transform: translateY(-1px);
+}
+
+.logo-gallery-btn:focus-visible {
+    outline: 2px solid #6366f1;
+    outline-offset: 2px;
+}
+
+.logo-gallery-btn.is-selected {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+}
+
+.logo-gallery-btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.logo-gallery-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.dark .logo-gallery-btn {
+    background: #0f172a;
+    border-color: #475569;
+}
+
+.logo-size-slider {
+    width: 100%;
+    height: 0.5rem;
+    accent-color: #4f46e5;
+    cursor: pointer;
+}
+
+.logo-size-slider:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
 /* Error report button responsive */
 #errorReportBtn {
     transition: all 0.3s ease;

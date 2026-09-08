@@ -78,14 +78,95 @@
                                 <span data-i18n="qr_colors">Màu sắc QR Code:</span>
                             </p>
                             
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <label class="mode-chip">
+                                    <input type="radio" name="colorMode" value="solid" class="sr-only" checked>
+                                    <span data-i18n="color_mode_solid">Một màu</span>
+                                </label>
+                                <label class="mode-chip">
+                                    <input type="radio" name="colorMode" value="gradient" class="sr-only">
+                                    <span data-i18n="color_mode_gradient">Gradient</span>
+                                </label>
+                            </div>
+
                             <div class="grid md:grid-cols-2 gap-4 mb-4">
                                 <div>
                                     <label class="text-xs text-gray-600 dark:text-gray-400 font-medium mb-2 block" data-i18n="qr_color"></label>
-                                    <input type="color" id="qrColorDark" value="#000000" class="w-full h-12 border-2 border-gray-200 dark:border-gray-600 rounded-xl cursor-pointer">
+                                    <div class="color-input-row">
+                                        <input type="color" id="qrColorDark" value="#000000" class="color-swatch" data-hex-input="qrColorDarkHex" aria-label="QR color">
+                                        <input type="text" id="qrColorDarkHex" value="#000000" class="color-hex-input input-bg focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200" data-color-picker="qrColorDark" spellcheck="false" autocomplete="off" maxlength="24" data-i18n-placeholder="color_hex_placeholder" aria-describedby="qrColorDarkError">
+                                    </div>
+                                    <p id="qrColorDarkError" class="color-hex-error hidden" data-i18n="color_hex_invalid"></p>
                                 </div>
                                 <div>
                                     <label class="text-xs text-gray-600 dark:text-gray-400 font-medium mb-2 block" data-i18n="bg_color"></label>
-                                    <input type="color" id="qrColorLight" value="#ffffff" class="w-full h-12 border-2 border-gray-200 dark:border-gray-600 rounded-xl cursor-pointer">
+                                    <div class="color-input-row">
+                                        <input type="color" id="qrColorLight" value="#ffffff" class="color-swatch" data-hex-input="qrColorLightHex" aria-label="Background color">
+                                        <input type="text" id="qrColorLightHex" value="#ffffff" class="color-hex-input input-bg focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200" data-color-picker="qrColorLight" spellcheck="false" autocomplete="off" maxlength="24" data-i18n-placeholder="color_hex_placeholder" aria-describedby="qrColorLightError">
+                                    </div>
+                                    <p id="qrColorLightError" class="color-hex-error hidden" data-i18n="color_hex_invalid"></p>
+                                </div>
+                            </div>
+
+                            <div id="gradientControls" class="hidden space-y-4 mb-4">
+                                <div>
+                                    <label class="text-xs text-gray-600 dark:text-gray-400 font-medium mb-2 block" data-i18n="gradient_color">Màu thứ hai:</label>
+                                    <div class="color-input-row">
+                                        <input type="color" id="qrColorGradient" value="#4f46e5" class="color-swatch" data-hex-input="qrColorGradientHex" aria-label="Gradient color">
+                                        <input type="text" id="qrColorGradientHex" value="#4f46e5" class="color-hex-input input-bg focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200" data-color-picker="qrColorGradient" spellcheck="false" autocomplete="off" maxlength="24" data-i18n-placeholder="color_hex_placeholder" aria-describedby="qrColorGradientError">
+                                    </div>
+                                    <p id="qrColorGradientError" class="color-hex-error hidden" data-i18n="color_hex_invalid"></p>
+                                </div>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="text-xs text-gray-600 dark:text-gray-400 font-medium mb-2 block" data-i18n="gradient_type">Kiểu gradient:</label>
+                                        <div class="flex flex-wrap gap-2">
+                                            <label class="mode-chip">
+                                                <input type="radio" name="gradientType" value="linear" class="sr-only" checked>
+                                                <span data-i18n="gradient_linear">Tuyến tính</span>
+                                            </label>
+                                            <label class="mode-chip">
+                                                <input type="radio" name="gradientType" value="radial" class="sr-only">
+                                                <span data-i18n="gradient_radial">Tròn</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div id="gradientAngleWrap">
+                                        <label class="text-xs text-gray-600 dark:text-gray-400 font-medium mb-2 block" for="gradientAngle" data-i18n="gradient_direction">Hướng:</label>
+                                        <select id="gradientAngle" class="w-full px-4 py-3 border-2 input-bg rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200">
+                                            <option value="0" data-i18n="dir_0">Trái → Phải</option>
+                                            <option value="45" data-i18n="dir_45">Chéo xuống</option>
+                                            <option value="90" data-i18n="dir_90">Trên → Dưới</option>
+                                            <option value="135" data-i18n="dir_135">Chéo lên</option>
+                                            <option value="180" data-i18n="dir_180">Phải → Trái</option>
+                                            <option value="270" data-i18n="dir_270">Dưới → Trên</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <label class="flex items-center gap-3 mb-3 cursor-pointer">
+                                <input type="checkbox" id="customEyeColor" class="w-4 h-4 text-indigo-600 rounded">
+                                <span class="text-sm font-medium text-gray-700 dark:text-gray-300" data-i18n="custom_eye_color">Màu mắt QR riêng</span>
+                            </label>
+                            <div id="eyeColorControls" class="hidden mb-4">
+                                <div class="grid md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="text-xs text-gray-600 dark:text-gray-400 font-medium mb-2 block" data-i18n="eye_frame_color">Khung mắt (ngoài):</label>
+                                    <div class="color-input-row">
+                                        <input type="color" id="eyeFrameColor" value="#000000" class="color-swatch" data-hex-input="eyeFrameColorHex" aria-label="Eye frame color">
+                                        <input type="text" id="eyeFrameColorHex" value="#000000" class="color-hex-input input-bg focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200" data-color-picker="eyeFrameColor" spellcheck="false" autocomplete="off" maxlength="24" data-i18n-placeholder="color_hex_placeholder" aria-describedby="eyeFrameColorError">
+                                    </div>
+                                    <p id="eyeFrameColorError" class="color-hex-error hidden" data-i18n="color_hex_invalid"></p>
+                                </div>
+                                <div>
+                                    <label class="text-xs text-gray-600 dark:text-gray-400 font-medium mb-2 block" data-i18n="eye_ball_color">Tâm mắt (trong):</label>
+                                    <div class="color-input-row">
+                                        <input type="color" id="eyeBallColor" value="#000000" class="color-swatch" data-hex-input="eyeBallColorHex" aria-label="Eye ball color">
+                                        <input type="text" id="eyeBallColorHex" value="#000000" class="color-hex-input input-bg focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200" data-color-picker="eyeBallColor" spellcheck="false" autocomplete="off" maxlength="24" data-i18n-placeholder="color_hex_placeholder" aria-describedby="eyeBallColorError">
+                                    </div>
+                                    <p id="eyeBallColorError" class="color-hex-error hidden" data-i18n="color_hex_invalid"></p>
+                                </div>
                                 </div>
                             </div>
                             <p class="text-xs text-gray-500 dark:text-gray-400 mt-2" data-i18n="color_warning"></p>
@@ -120,9 +201,28 @@
                                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-1" data-i18n="add_logo_hint"></p>
                                     </div>
                                 </label>
+                                <p class="text-xs text-gray-600 dark:text-gray-400 font-medium" data-i18n="logo_gallery">Chọn logo mẫu:</p>
+                                <div id="logoGallery" class="logo-gallery" aria-label="Logo gallery"></div>
+                                <p class="text-xs text-gray-600 dark:text-gray-400 font-medium" data-i18n="logo_upload_own">Hoặc tải logo của bạn:</p>
                                 <input type="file" id="logoFile" accept="image/*" class="w-full px-4 py-3 border-2 input-bg rounded-xl transition-all" disabled>
 
                                 <div id="logoPreview" class="hidden mt-2 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg"></div>
+                                <div id="logoExtraControls" class="space-y-3 pt-1">
+                                    <div>
+                                        <div class="flex items-center justify-between mb-2">
+                                            <label for="logoSize" class="text-xs text-gray-600 dark:text-gray-400 font-medium" data-i18n="logo_size">Kích thước logo:</label>
+                                            <span id="logoSizeValue" class="text-xs font-semibold text-indigo-600">20%</span>
+                                        </div>
+                                        <input type="range" id="logoSize" min="10" max="25" value="20" class="logo-size-slider" disabled>
+                                    </div>
+                                    <label class="flex items-start gap-3 cursor-pointer">
+                                        <input type="checkbox" id="logoRemoveBg" class="mt-0.5 w-4 h-4 text-indigo-600 rounded" disabled>
+                                        <span>
+                                            <span class="text-sm font-medium text-gray-700 dark:text-gray-300" data-i18n="logo_remove_bg">Xóa nền trắng của logo</span>
+                                            <span class="block text-xs text-gray-500 dark:text-gray-400 mt-1" data-i18n="logo_remove_bg_hint">Hữu ích với logo JPG/PNG nền trắng.</span>
+                                        </span>
+                                    </label>
+                                </div>
                                 <label class="flex items-center p-3 rounded-lg border-2 border-gray-200 dark:border-gray-600 cursor-pointer hover:border-indigo-500 transition-all">
                                     <input type="radio" name="centerOption" value="text" class="mr-3 w-4 h-4 text-indigo-600">
                                     <div class="flex-1">
@@ -130,9 +230,13 @@
                                     </div>
                                 </label>
                                 <input type="text" id="centerText" data-i18n-placeholder="enter_text" class="w-full px-4 py-3 border-2 input-bg rounded-xl transition-all mb-2" disabled>
-                                <div class="flex items-center gap-3">
-                                    <label class="text-sm text-gray-600 dark:text-gray-400 font-medium" data-i18n="text_color"></label>
-                                    <input type="color" id="centerTextColor" value="#000000" class="h-10 w-24 border-2 border-gray-200 dark:border-gray-600 rounded-lg cursor-pointer" disabled>
+                                <div>
+                                    <label class="text-sm text-gray-600 dark:text-gray-400 font-medium mb-2 block" data-i18n="text_color"></label>
+                                    <div class="color-input-row">
+                                        <input type="color" id="centerTextColor" value="#000000" class="color-swatch" data-hex-input="centerTextColorHex" disabled>
+                                        <input type="text" id="centerTextColorHex" value="#000000" class="color-hex-input input-bg focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200" data-color-picker="centerTextColor" spellcheck="false" autocomplete="off" maxlength="24" data-i18n-placeholder="color_hex_placeholder" aria-describedby="centerTextColorError" disabled>
+                                    </div>
+                                    <p id="centerTextColorError" class="color-hex-error hidden" data-i18n="color_hex_invalid"></p>
                                 </div>
 
                                 <label class="flex items-center p-3 rounded-lg border-2 border-gray-200 dark:border-gray-600 cursor-pointer hover:border-indigo-500 transition-all">

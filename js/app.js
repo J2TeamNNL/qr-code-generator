@@ -3,6 +3,7 @@ import { translations } from './translations.js';
 import { ThemeManager, LanguageManager } from './utils.js';
 import { QRGenerator } from './qr-generator.js';
 import { ActivityLogger, createErrorReportButton } from './logger.js';
+import { logoGallery, svgToDataUrl } from './logo-gallery.js';
 
 // Make translations available globally
 window.translations = translations;
@@ -346,9 +347,11 @@ function init() {
     
     // Render data types from config
     renderDataTypes();
+    renderLogoGallery();
     
     setupEventListeners();
     updateFields();
+    syncCustomizePanels();
     
     // Create error report button
     createErrorReportButton();
@@ -364,6 +367,7 @@ window.toggleDarkMode = () => {
 window.toggleLanguage = () => {
     ActivityLogger.log('Language toggled', { to: LanguageManager.current === 'vi' ? 'en' : 'vi' });
     LanguageManager.toggle();
+    refreshGalleryLabels();
 };
 
 // Test function for debugging
@@ -408,6 +412,133 @@ function renderDataTypes() {
     });
 }
 
+function renderLogoGallery() {
+    const container = document.getElementById('logoGallery');
+    if (!container) return;
+    container.innerHTML = '';
+
+    logoGallery.forEach((item) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'logo-gallery-btn';
+        button.dataset.galleryId = item.id;
+        button.dataset.labelKey = item.labelKey;
+        button.innerHTML = `<img src="${svgToDataUrl(item.svg)}" alt="">`;
+        button.addEventListener('click', async () => {
+            const logoRadio = document.querySelector('input[name="centerOption"][value="logo"]');
+            if (logoRadio && !logoRadio.checked) {
+                logoRadio.checked = true;
+                logoRadio.dispatchEvent(new Event('change'));
+            }
+            await applyLogoSource({
+                url: svgToDataUrl(item.svg),
+                name: item.id,
+                source: 'gallery',
+                galleryId: item.id,
+            });
+            const fileInput = document.getElementById('logoFile');
+            if (fileInput) fileInput.value = '';
+            setGallerySelection(item.id);
+        });
+        container.appendChild(button);
+    });
+    refreshGalleryLabels();
+}
+
+function refreshGalleryLabels() {
+    document.querySelectorAll('.logo-gallery-btn').forEach((btn) => {
+        const label = LanguageManager.translate(btn.dataset.labelKey);
+        btn.setAttribute('aria-label', label);
+        btn.title = label;
+    });
+}
+
+function setGallerySelection(id) {
+    document.querySelectorAll('.logo-gallery-btn').forEach((btn) => {
+        btn.classList.toggle('is-selected', btn.dataset.galleryId === id);
+    });
+}
+
+function updateLogoSizeLabel() {
+    const slider = document.getElementById('logoSize');
+    const label = document.getElementById('logoSizeValue');
+    if (slider && label) {
+        label.textContent = `${slider.value}%`;
+    }
+}
+
+function setLogoControlsEnabled(enabled) {
+    const logoFile = document.getElementById('logoFile');
+    const logoSize = document.getElementById('logoSize');
+    const logoRemoveBg = document.getElementById('logoRemoveBg');
+    if (logoFile) logoFile.disabled = !enabled;
+    if (logoSize) logoSize.disabled = !enabled;
+    if (logoRemoveBg) logoRemoveBg.disabled = !enabled;
+}
+
+function syncCustomizePanels() {
+    const gradientOn = document.querySelector('input[name="colorMode"]:checked')?.value === 'gradient';
+    const gradientType = document.querySelector('input[name="gradientType"]:checked')?.value || 'linear';
+    const customEyes = !!document.getElementById('customEyeColor')?.checked;
+    document.getElementById('gradientControls')?.classList.toggle('hidden', !gradientOn);
+    document.getElementById('gradientAngleWrap')?.classList.toggle('hidden', !gradientOn || gradientType !== 'linear');
+    document.getElementById('eyeColorControls')?.classList.toggle('hidden', !customEyes);
+
+    document.querySelectorAll('input[name="colorMode"]').forEach((input) => {
+        input.closest('.mode-chip')?.classList.toggle('is-active', input.checked);
+    });
+    document.querySelectorAll('input[name="gradientType"]').forEach((input) => {
+        input.closest('.mode-chip')?.classList.toggle('is-active', input.checked);
+    });
+
+    const logoOn = document.querySelector('input[name="centerOption"]:checked')?.value === 'logo';
+    setLogoControlsEnabled(!!logoOn);
+    updateLogoSizeLabel();
+}
+
+async function applyLogoSource(source) {
+    const preview = document.getElementById('logoPreview');
+    if (preview) {
+        preview.classList.remove('hidden');
+        preview.innerHTML = `<p class="text-sm text-gray-500">${LanguageManager.translate('logo_processing')}</p>`;
+    }
+
+    try {
+        QRGenerator.currentLogo = await QRGenerator.prepareLogo(source);
+        refreshLogoPreview();
+        ActivityLogger.log('Logo ready', {
+            name: QRGenerator.currentLogo.name,
+            width: QRGenerator.currentLogo.width,
+            height: QRGenerator.currentLogo.height,
+            source: QRGenerator.currentLogo.source,
+        });
+        autoGenerateQR();
+    } catch (error) {
+        console.error('Failed to process logo:', error);
+        ActivityLogger.log('Logo processing error', { error: error.message });
+        QRGenerator.currentLogo = null;
+        if (preview) {
+            preview.classList.remove('hidden');
+            preview.innerHTML = `<p class="text-sm text-red-500">${LanguageManager.translate('logo_error')}</p>`;
+        }
+    }
+}
+
+function refreshLogoPreview() {
+    const preview = document.getElementById('logoPreview');
+    const logo = QRGenerator.currentLogo;
+    if (!preview || !logo) return;
+
+    const img = document.createElement('img');
+    img.src = document.getElementById('logoRemoveBg')?.checked ? logo.processedUrl : logo.url;
+    img.alt = logo.name;
+    img.className = 'logo-preview-img rounded-lg border-2 border-gray-300';
+
+    preview.classList.remove('hidden');
+    preview.innerHTML = `<p class="text-xs text-gray-500 dark:text-gray-400 mb-2">${LanguageManager.translate('logo_ready')} ${logo.width}×${logo.height}</p>`;
+    preview.appendChild(img);
+}
+
 // Tab switching function
 window.switchTab = (tabName) => {
     ActivityLogger.log('Tab switched', { tab: tabName });
@@ -445,10 +576,19 @@ function setupEventListeners() {
         }
         
         const centerOption = document.querySelector('input[name="centerOption"]:checked')?.value;
-        const hasLogo = centerOption === 'logo' && document.getElementById('logoFile')?.files[0];
+        const hasLogo = centerOption === 'logo' && !!QRGenerator.currentLogo;
         const hasText = centerOption === 'text' && document.getElementById('centerText')?.value;
-        const colorDark = document.getElementById('qrColorDark')?.value || '#000000';
-        const colorLight = document.getElementById('qrColorLight')?.value || '#ffffff';
+        const colorDark = QRGenerator.parseColor(document.getElementById('qrColorDark')?.value) || '#000000';
+        const colorLight = QRGenerator.parseColor(document.getElementById('qrColorLight')?.value) || '#ffffff';
+        const colorGradient = QRGenerator.parseColor(document.getElementById('qrColorGradient')?.value) || '#4f46e5';
+        const gradientEnabled = document.querySelector('input[name="colorMode"]:checked')?.value === 'gradient';
+        const gradientType = document.querySelector('input[name="gradientType"]:checked')?.value || 'linear';
+        const gradientAngle = parseInt(document.getElementById('gradientAngle')?.value || '0', 10);
+        const customEyes = !!document.getElementById('customEyeColor')?.checked;
+        const eyeFrame = QRGenerator.parseColor(document.getElementById('eyeFrameColor')?.value) || colorDark;
+        const eyeBall = QRGenerator.parseColor(document.getElementById('eyeBallColor')?.value) || colorDark;
+        const logoSizeRatio = parseInt(document.getElementById('logoSize')?.value || '20', 10) / 100;
+        const logoRemoveBg = !!document.getElementById('logoRemoveBg')?.checked;
         const size = parseInt(document.getElementById('qrSize')?.value || 300);
         
         ActivityLogger.log('QR generation started', {
@@ -459,6 +599,8 @@ function setupEventListeners() {
             hasText,
             colorDark,
             colorLight,
+            gradientEnabled,
+            customEyes,
             size,
         });
         
@@ -466,8 +608,17 @@ function setupEventListeners() {
             await QRGenerator.generate(data, {
                 colorDark,
                 colorLight,
+                colorGradient,
+                gradientEnabled,
+                gradientType,
+                gradientAngle,
+                customEyes,
+                eyeFrame,
+                eyeBall,
                 hasLogo,
                 hasText,
+                logoSizeRatio,
+                logoRemoveBg,
                 size,
                 correctLevel: (hasLogo || hasText) ? QRCode.CorrectLevel.H : QRCode.CorrectLevel.M,
             });
@@ -506,13 +657,13 @@ function setupEventListeners() {
         radio.addEventListener('change', function() {
             ActivityLogger.log('Center option changed', { option: this.value });
             
-            const logoFile = document.getElementById('logoFile');
             const centerText = document.getElementById('centerText');
             const centerTextColor = document.getElementById('centerTextColor');
+            const textDisabled = this.value !== 'text';
             
-            if (logoFile) logoFile.disabled = this.value !== 'logo';
-            if (centerText) centerText.disabled = this.value !== 'text';
-            if (centerTextColor) centerTextColor.disabled = this.value !== 'text';
+            if (centerText) centerText.disabled = textDisabled;
+            setColorFieldDisabled(centerTextColor, textDisabled);
+            setLogoControlsEnabled(this.value === 'logo');
             
             // Auto-generate when option changes
             autoGenerateQR();
@@ -525,42 +676,51 @@ function setupEventListeners() {
         logoFileInput.addEventListener('change', async function(e) {
             const file = e.target.files[0];
             if (!file) return;
-            
-            // Show processing message
-            const preview = document.getElementById('logoPreview');
-            if (preview) {
-                preview.classList.remove('hidden');
-                preview.innerHTML = `<p class="text-sm text-gray-500">${LanguageManager.translate('logo_processing')}</p>`;
-            }
-            
-            try {
-                // Crop and resize
-                const croppedBlob = await QRGenerator.cropAndResizeImage(file, 200);
-                
-                // Show preview
-                const img = document.createElement('img');
-                img.src = URL.createObjectURL(croppedBlob);
-                img.className = 'w-20 h-20 rounded-lg border-2 border-gray-300 object-cover';
-                
-                if (preview) {
-                    preview.classList.remove('hidden');
-                    preview.innerHTML = `<p class="text-xs text-gray-500 dark:text-gray-400 mb-2">${LanguageManager.translate('logo_cropped')}</p>`;
-                    preview.appendChild(img);
-                }
-                
-                ActivityLogger.log('Logo uploaded and cropped', { fileName: file.name, fileSize: file.size });
-                console.log('✓ Logo cropped and ready');
-                
-                // Auto-generate after logo upload
-                autoGenerateQR();
-            } catch (error) {
-                console.error('Failed to process logo:', error);
-                ActivityLogger.log('Logo processing error', { error: error.message });
-                if (preview) {
-                    preview.classList.remove('hidden');
-                    preview.innerHTML = `<p class="text-sm text-red-500">${LanguageManager.translate('logo_error')}</p>`;
-                }
-            }
+            await applyLogoSource({
+                url: await QRGenerator.fileToDataUrl(file),
+                name: file.name,
+                source: 'file',
+            });
+            setGallerySelection(null);
+        });
+    }
+
+    const logoSize = document.getElementById('logoSize');
+    if (logoSize) {
+        logoSize.addEventListener('input', () => {
+            updateLogoSizeLabel();
+            autoGenerateQR();
+        });
+    }
+
+    const logoRemoveBg = document.getElementById('logoRemoveBg');
+    if (logoRemoveBg) {
+        logoRemoveBg.addEventListener('change', () => {
+            refreshLogoPreview();
+            autoGenerateQR();
+        });
+    }
+
+    document.querySelectorAll('input[name="colorMode"]').forEach((radio) => {
+        radio.addEventListener('change', () => {
+            syncCustomizePanels();
+            autoGenerateQR();
+        });
+    });
+    document.querySelectorAll('input[name="gradientType"]').forEach((radio) => {
+        radio.addEventListener('change', () => {
+            syncCustomizePanels();
+            autoGenerateQR();
+        });
+    });
+    const gradientAngle = document.getElementById('gradientAngle');
+    if (gradientAngle) gradientAngle.addEventListener('change', autoGenerateQR);
+
+    const customEyeColor = document.getElementById('customEyeColor');
+    if (customEyeColor) {
+        customEyeColor.addEventListener('change', () => {
+            syncCustomizePanels();
+            autoGenerateQR();
         });
     }
     
@@ -574,11 +734,7 @@ function setupEventListeners() {
         });
     }
     
-    // Color pickers - auto-generate on change
-    const colorDark = document.getElementById('qrColorDark');
-    const colorLight = document.getElementById('qrColorLight');
-    if (colorDark) colorDark.addEventListener('input', autoGenerateQR);
-    if (colorLight) colorLight.addEventListener('input', autoGenerateQR);
+    bindColorInputs();
     
     // QR Size input - validate and auto-generate on blur
     const qrSize = document.getElementById('qrSize');
@@ -606,9 +762,7 @@ function setupEventListeners() {
     
     // Center text - auto-generate on change
     const centerText = document.getElementById('centerText');
-    const centerTextColor = document.getElementById('centerTextColor');
     if (centerText) centerText.addEventListener('input', autoGenerateQR);
-    if (centerTextColor) centerTextColor.addEventListener('input', autoGenerateQR);
     
     // UTM fields - auto-generate on change
     const utmSource = document.getElementById('utmSource');
@@ -617,6 +771,65 @@ function setupEventListeners() {
     if (utmSource) utmSource.addEventListener('input', autoGenerateQR);
     if (utmMedium) utmMedium.addEventListener('input', autoGenerateQR);
     if (utmCampaign) utmCampaign.addEventListener('input', autoGenerateQR);
+}
+
+function setColorFieldDisabled(picker, disabled) {
+    if (!picker) return;
+    picker.disabled = disabled;
+    const hex = document.getElementById(picker.dataset.hexInput);
+    if (hex) hex.disabled = disabled;
+}
+
+function bindColorInputs() {
+    document.querySelectorAll('input[type="color"][data-hex-input]').forEach((picker) => {
+        const hex = document.getElementById(picker.dataset.hexInput);
+        if (!hex) return;
+        const errorEl = document.getElementById(`${picker.id}Error`);
+
+        const showError = (show) => {
+            hex.classList.toggle('is-invalid', show);
+            if (errorEl) errorEl.classList.toggle('hidden', !show);
+        };
+
+        picker.addEventListener('input', () => {
+            hex.value = picker.value;
+            showError(false);
+            autoGenerateQR();
+        });
+
+        hex.addEventListener('input', () => {
+            const parsed = QRGenerator.parseColor(hex.value);
+            if (parsed) {
+                showError(false);
+                picker.value = parsed;
+                autoGenerateQR();
+                return;
+            }
+            const incomplete = QRGenerator.isIncompleteColor(hex.value);
+            showError(!incomplete && hex.value.trim().length > 0);
+        });
+
+        hex.addEventListener('blur', () => {
+            const parsed = QRGenerator.parseColor(hex.value);
+            if (parsed) {
+                hex.value = parsed;
+                showError(false);
+                return;
+            }
+            if (hex.value.trim()) {
+                showError(true);
+            } else {
+                hex.value = picker.value;
+                showError(false);
+            }
+        });
+
+        hex.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                hex.blur();
+            }
+        });
+    });
 }
 
 
