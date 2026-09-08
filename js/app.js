@@ -620,7 +620,7 @@ function setupEventListeners() {
                 logoSizeRatio,
                 logoRemoveBg,
                 size,
-                correctLevel: (hasLogo || hasText) ? QRCode.CorrectLevel.H : QRCode.CorrectLevel.M,
+                correctLevel: (hasLogo || hasText) ? 'H' : 'M',
             });
             
             ActivityLogger.log('QR generation successful');

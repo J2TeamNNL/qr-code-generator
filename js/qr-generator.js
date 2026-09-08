@@ -68,20 +68,36 @@ const QRGenerator = {
         return (lighter + 0.05) / (darker + 0.05);
     },
 
-    extractModel(instance) {
-        const model = instance?._oQRCode;
-        if (!model || typeof model.getModuleCount !== 'function' || typeof model.isDark !== 'function') {
-            return null;
+    toErrorLevel(correctLevel) {
+        if (correctLevel === 'H' || correctLevel === 2) return 'H';
+        if (correctLevel === 'Q' || correctLevel === 3) return 'Q';
+        if (correctLevel === 'L' || correctLevel === 1) return 'L';
+        return 'M';
+    },
+
+    // qrcodejs 1.0.0 reuses its UTF-8 byte buffer, so CJK + ASCII
+    // (e.g. "我 xx") overflows and shows a false "data too long" alert.
+    buildModel(data, correctLevel) {
+        if (typeof qrcode !== 'function') {
+            throw new Error('QR encoder unavailable');
         }
-        const moduleCount = model.getModuleCount();
+        if (qrcode.stringToBytesFuncs?.['UTF-8']) {
+            qrcode.stringToBytes = qrcode.stringToBytesFuncs['UTF-8'];
+        }
+
+        const qr = qrcode(0, this.toErrorLevel(correctLevel));
+        qr.addData(String(data), 'Byte');
+        qr.make();
+
+        const moduleCount = qr.getModuleCount();
         const modules = [];
         for (let row = 0; row < moduleCount; row++) {
             modules[row] = [];
             for (let col = 0; col < moduleCount; col++) {
-                modules[row][col] = !!model.isDark(row, col);
+                modules[row][col] = !!qr.isDark(row, col);
             }
         }
-        return { moduleCount, modules };
+        return { moduleCount, modules, qr };
     },
 
     finderRole(row, col, moduleCount) {
@@ -189,7 +205,7 @@ const QRGenerator = {
             hasText = false,
             logoSizeRatio = 0.2,
             logoRemoveBg = false,
-            correctLevel = QRCode.CorrectLevel.M,
+            correctLevel = 'M',
             size = 300,
         } = options;
 
@@ -218,23 +234,14 @@ const QRGenerator = {
         }
 
         try {
-            this.qrCodeInstance = new QRCode(qrContainer, {
-                text: String(data),
-                width: size,
-                height: size,
-                colorDark: '#000000',
-                colorLight: safeColorLight,
-                correctLevel: (hasLogo || hasText) ? QRCode.CorrectLevel.H : correctLevel,
-            });
+            const model = this.buildModel(data, (hasLogo || hasText) ? 'H' : correctLevel);
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            canvas.setAttribute('aria-hidden', 'true');
+            qrContainer.appendChild(canvas);
 
-            await this.waitForRender();
-
-            const model = this.extractModel(this.qrCodeInstance);
-            const canvas = qrContainer.querySelector('canvas');
-            if (!model || !canvas) {
-                throw new Error('QR canvas unavailable');
-            }
-
+            this.qrCodeInstance = model.qr;
             this.drawStyledQR(canvas, model, renderOptions);
             this.lastState = {
                 ...renderOptions,
@@ -257,7 +264,9 @@ const QRGenerator = {
             this.syncPreviewImage(qrContainer, canvas);
             document.getElementById('downloadSection').classList.remove('hidden');
         } catch (error) {
-            alert(LanguageManager.translate('alert_data_too_long'));
+            const message = String(error?.message || '');
+            const tooLong = /overflow|too long|code length/i.test(message);
+            alert(LanguageManager.translate(tooLong ? 'alert_data_too_long' : 'alert_qr_failed'));
             console.error(error);
         }
     },
@@ -273,24 +282,6 @@ const QRGenerator = {
         canvas.style.display = 'none';
         img.style.display = 'block';
         img.src = dataUrl;
-    },
-
-    waitForRender() {
-        return new Promise((resolve) => {
-            const started = Date.now();
-            const tick = () => {
-                if (this.qrCodeInstance?._oQRCode && document.querySelector('#qrcode canvas')) {
-                    resolve();
-                    return;
-                }
-                if (Date.now() - started > 2000) {
-                    resolve();
-                    return;
-                }
-                requestAnimationFrame(tick);
-            };
-            tick();
-        });
     },
 
     loadImageFromFile(file) {

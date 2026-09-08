@@ -111,6 +111,7 @@ const translations = {
         // Alert messages
         alert_please_fill: 'Vui lòng nhập đầy đủ thông tin!',
         alert_data_too_long: 'Dữ liệu quá dài! Vui lòng rút ngắn nội dung.',
+        alert_qr_failed: 'Không tạo được QR code. Vui lòng thử lại.',
         alert_logo_load_failed: 'Không thể tải logo. Vui lòng thử file khác.',
         alert_image_process_failed: 'Không thể xử lý ảnh. Vui lòng thử file khác.',
         
@@ -239,6 +240,7 @@ const translations = {
         // Alert messages
         alert_please_fill: 'Please fill in all required information!',
         alert_data_too_long: 'Data is too long! Please shorten the content.',
+        alert_qr_failed: 'Could not create the QR code. Please try again.',
         alert_logo_load_failed: 'Failed to load logo. Please try another file.',
         alert_image_process_failed: 'Failed to process image. Please try another file.',
         
